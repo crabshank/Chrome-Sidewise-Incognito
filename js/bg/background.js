@@ -1143,10 +1143,11 @@ function populatePages(incognito)
             }
 
             var winNode = tree.getNode(['chromeId', win.id]);
-            if (!winNode) {
+			
+          /*if (!winNode) {
                 winNode = new WindowNode(win);
                 tree.addNode(winNode);
-            }
+            }*/
 
             for (var j = 0; j < numTabs; j++) {
                 var tab = tabs[j];
