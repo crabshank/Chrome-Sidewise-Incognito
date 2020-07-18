@@ -170,24 +170,24 @@ console.log(backup);
         }
     }
 
-    if (!loadIt) {
+    /*if (!loadIt) {
         // first time population of page tree
         log('--- first time population of page tree ---');
         populatePages();
     }
-    else {
+    else {*/
         // load stored page tree and associate tabs to existing page nodes
         log('--- loading page tree from storage ---');
         loadPageTreeFromLocalStorage(storedPageTree);
 
         setTimeout(startAssociationRun, 2000); // wait a couple seconds for content scripts to get going
-        populatePages(true);
+        //populatePages(true);
 
         if (updatedSidewise) {
             showWhatsNewPane();
         }
         showPromoPageAnnually();
-    }
+    //}
 
     await loadAndPopulateTree(ghostTree, 'ghostTree', config.GHOSTTREE_NODE_TYPES);
     synchronizeGhostTree();
@@ -398,6 +398,7 @@ async function loadTreeData(settingName) {
 function wipeNodes(tree) {
    // tree.loadTree(tree, config.PAGETREE_NODE_TYPES);
     tree.tree.forEach(function(node) {
+		//console.log(node);
         // clear media values on every page node we load
         if (node instanceof PageNode || node instanceof WindowNode) {
             if (node instanceof PageNode) {
@@ -1117,7 +1118,7 @@ function addMissingNodesToGhostTree(fromTree, asAlive) {
 //      to parents that aren't yet in the tree. this should NOT be an issue though because
 //      all we do is add the tabs in one loop, THEN do parent-child relating in a second loop
 //      after all pages are in the tree. so NO this will be a non issue !
-function populatePages(incognito)
+/*function populatePages(incognito)
 {
     chrome.windows.getAll({ populate: true }, function(windows) {
         var numWindows = windows.length;
@@ -1133,7 +1134,7 @@ function populatePages(incognito)
             if (incognito === false && win.incognito) continue;
 */
 
-            var tabs = win.tabs;
+            /*var tabs = win.tabs;
             var numTabs = tabs.length;
             log('Populating tabs from window', 'windowId', win.id, 'number of tabs', numTabs);
 
@@ -1142,27 +1143,27 @@ function populatePages(incognito)
                 continue;
             }
 
-            var winNode = tree.getNode(['chromeId', win.id]);
+            var winNode = tree.getNode(['chromeId', win.id]);*/
 			
           /*if (!winNode) {
                 winNode = new WindowNode(win);
                 tree.addNode(winNode);
             }*/
 
-            for (var j = 0; j < numTabs; j++) {
+            /*for (var j = 0; j < numTabs; j++) {
                 var tab = tabs[j];
                 log('Populating', tab.id, tab.title, getUrl(tab), tab);
                 var pageNode = tree.getNode(['chromeId', tab.id]);
-                if (!pageNode) {
+                /*if (!pageNode) {
                     tree.addNode(new PageNode(tab), winNode);
                 }
                 tabsToQuery.push(tab);
-            }
+            }*/
 
-        }
-        setTimeout(function() { findTabParents(tabsToQuery); }, 1500); // give content scripts a moment to get going
-    });
-}
+        //}
+       // setTimeout(function() { findTabParents(tabsToQuery); }, 1500); // give content scripts a moment to get going
+    //});
+//}
 
 function findTabParents(tabs) {
     log('entering findTabParents', tabs.length);
