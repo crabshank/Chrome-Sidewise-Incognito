@@ -127,7 +127,7 @@ img.ftIconButton.ftButton__page_close {
 #ftTooltip, #ftSimpleTip {
     display: none;
     position: absolute;
-    background: -webkit-linear-gradient(top, rgba(242,245,246,1) 0%,rgba(227,234,237,1) 100%);
+    background: -webkit-linear-gradient(top, hsl(214 100% 52% / 1) 0%,rgb(0 0 0) 100%);
     border: 1px solid #333;
     border-radius: 3px;
     font-size: 11px;
