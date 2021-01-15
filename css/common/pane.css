@@ -9,10 +9,11 @@ body {
 #heading {
     font-weight: bold;
     font-size: 16px;
+	color: rgb(229 229 229 / 1);
 }
 
 .hint {
     font-size: 11px;
     margin-top: 0.5em;
-    color: #999;
+    color: rgb(162 162 162 / 1);
 }
