@@ -1,6 +1,7 @@
 body {
-    font-family: 'Segoe UI', 'MS Sans Serif', sans-serif;
+    font-family: 'Segoe UI';
     margin: 5px;
+	background: rgb(25 25 25 / 1);
 }
 
 #main {
@@ -19,8 +20,10 @@ body {
 #notepad {
     width: 100%;
     height: 100%;
-    font-family: 'Consolas', 'Lucida Console', monospace;
+    font-family: 'Microsoft Jheng Hei UI';
     font-size: 12px;
+	background: rgb(25 25 25 / 1);
+	color: white;
 }
 
 #footer {

@@ -1,5 +1,6 @@
 header {
     height: 70px;
+    background: rgb(20 20 20 / 1);
 }
 
 footer.debugEnabled {

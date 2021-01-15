@@ -1,5 +1,6 @@
 header {
     height: 30px;
+	background: rgb(18 18 18);
 }
 
 footer.debugEnabled {
@@ -9,6 +10,7 @@ footer.debugEnabled {
 section#main {
     top: 30px;
     bottom: 0px;
+	background-color: rgb(18,18,18);
 }
 
 section#main.debugEnabled {
