@@ -303,8 +303,7 @@ section#main.debugEnabled {
 }
 
 .ftRowNode[highlighted=true]:not(.ftFocused):not(.ftSelected) > .ftItemRow:hover > .ftItemRowContent {
-    background: hsl(60 100% 8% / 1);
-    border: 1px solid hsl(60 100% 45% / 1);
+    background: hsl(60deg 100% 13%);
 }
 
 .ftRowNode[highlighted=true].ftFocused > .ftItemRow > .ftItemRowContent,

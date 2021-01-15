@@ -216,9 +216,11 @@ img.ftIconButton.ftButton__page_close {
 /* standard styling for focused, hovered, selected rows */
 
 .ftRowNode > .ftItemRow:hover > .ftItemRowContent {
-    background: rgb(41 41 41 / 1);
-    border: 1px solid #b8d6fb;
-    border-radius: 2px;
+    background: rgb(50, 50, 50);
+}
+
+.ftRowNode[rowtype=page][hibernated=true] > .ftItemRow:hover > .ftItemRowContent {
+    background-color: #3c3c3c;
 }
 
 .ftFocused > .ftItemRow > .ftItemRowContent,
