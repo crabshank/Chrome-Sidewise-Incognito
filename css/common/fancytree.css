@@ -225,12 +225,12 @@ img.ftIconButton.ftButton__page_close {
 
 .ftFocused > .ftItemRow > .ftItemRowContent,
 .ftSelected > .ftItemRow > .ftItemRowContent {
-    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, black),color-stop(1, #1f69ca));
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000ba),color-stop(1, #1f69ca));
 }
 
 .ftFocused > .ftItemRow:hover > .ftItemRowContent,
 .ftSelected > .ftItemRow:hover > .ftItemRowContent {
-    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, black),color-stop(1, hsl(214deg 100% 55%)));
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000de),color-stop(1, hsl(214deg 100% 55%)));
 }
 
 .ftFocused.ftSelected > .ftItemRow > .ftItemRowContent {
