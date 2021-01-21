@@ -226,9 +226,6 @@ img.ftIconButton.ftButton__page_close {
 .ftFocused > .ftItemRow > .ftItemRowContent,
 .ftSelected > .ftItemRow > .ftItemRowContent {
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, black),color-stop(1, #1f69ca));
-    //border: 1px solid rgb(125, 162, 206);
-    border-radius: 1px;
-    box-shadow: 0 0 0 1px #9c9c9cb3 inset;
 }
 
 .ftFocused > .ftItemRow:hover > .ftItemRowContent,
