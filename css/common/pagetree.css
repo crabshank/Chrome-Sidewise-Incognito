@@ -282,6 +282,10 @@ section#main.debugEnabled {
     //border: 1px dotted rgb(40, 40, 40);
 }
 
+.ftRowNode[rowtype=page][hibernated=true].ftSelected > .ftItemRow > .ftItemRowContent {
+    background-color: #363636;
+}
+
 .ftRoot:not(.ftMultiselecting) .ftRowNode[rowtype=page][hibernated=true][highlighted=true].ftFocused > .ftItemRow:hover > .ftItemRowContent {
     background: hsl(60 100% 11% / 1);
 	//border: 1px dotted rgb(40, 40, 40);
