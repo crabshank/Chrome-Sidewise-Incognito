@@ -172,7 +172,7 @@ class Settings {
             smartFocusPrefersParent: true,
             loggingEnabled: false,
             alwaysShowAdvancedOptions: true,
-            sidebarTargetWidth: 607,
+            sidebarTargetWidth: 608,
             allowAutoUnmaximize: true,
             autoCollapseLastSessionWindows: true,
             rememberOpenPagesBetweenSessions: true,
