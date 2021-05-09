@@ -124,6 +124,7 @@ class Settings {
         }
 
         const chromeData = data.chromeStorage;
+		chrome.storage.local.clear();
         for (var k in chromeData) {
             this.saveData(k, chromeData[k]);
         }
