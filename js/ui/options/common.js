@@ -659,8 +659,8 @@ async function submitBugReport() {
 // Emergency restore
 ///////////////////////////////////////////////////////////
 
-async function restoreFromPreviousSessionBackup() {
-    var backup = await settings.loadData('backupPageTreeLastSession', []);
+  /* async function restoreFromPreviousSessionBackup() {
+ var backup = await settings.loadData('backupPageTreeLastSession', []);
     var when;
     if (backup.length > 0) {
         when = 'during your PREVIOUS browser session';
@@ -687,7 +687,7 @@ async function restoreFromPreviousSessionBackup() {
     await settings.saveData('pageTree', backup);
     bg.setTimeout(bg.restartSidewise, 100);
     setTimeout(function() { window.close(); }, 10);
-}
+}*/
 
 ///////////////////////////////////////////////////////////
 // Import/export
