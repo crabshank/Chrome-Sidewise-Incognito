@@ -62,9 +62,9 @@ function onLoad()
         ghostTree = new UiDataTree(
             function() {},
             undefined,
-            function() {
+            /*function() {
                 savePageTree(ghostTree, 'ghostTree', false);
-            },
+            },*/
             config.TREE_ONMODIFIED_DELAY_ON_STARTUP_MS * 0.95,
             config.TREE_ONMODIFIED_STARTUP_DURATION_MS,
             config.TREE_ONMODIFIED_DELAY_AFTER_STARTUP_MS * 0.95
@@ -105,7 +105,7 @@ async function onPageTreeModifiedDelayed() {
     }
     if (tree.lastModified != tree.lastSaved) {
         await savePageTree(tree, 'pageTree', true);
-			backupPageTree(true);
+			//backupPageTree(true);
         tree.lastSaved = tree.lastModified;
     }
     tree.onModifiedDelayedWaitMs = config.TREE_ONMODIFIED_DELAY_AFTER_STARTUP_MS;
@@ -143,13 +143,13 @@ async function postLoad(focusedWin) {
 
     var backup = await loadTreeData('backupPageTree');
 console.log(backup);
-    var haveBackup = backup && backup.length > 0;
+    /*var haveBackup = backup && backup.length > 0;
     if (haveBackup) {
         // Write out an additional backup copy of the tree data backup. This gives us one more possible
         // rollback point in case of subsequent tree data corruption. We don't block on this operation
         // because it is OK for it to just happen in the background asynchronously.
         settings.saveData('backupPageTreeLastSession', backup);
-    }
+    }*/
 
     var storedPageTree = await loadTreeData('pageTree');
 	initTree=storedPageTree;
@@ -194,12 +194,12 @@ console.log(backup);
     setInterval(synchronizeGhostTree, MINUTE_MS * 30);
 
     // make an initial backup if we don't have one yet
-    if (!haveBackup) {
+    /*if (!haveBackup) {
         setTimeout(function() { backupPageTree(true); }, config.SAVE_TREE_INITIAL_BACKUP_AFTER_MS);
-    }
+    }*/
 
     // save a backup of pageTree periodically
-    setInterval(backupPageTree, config.SAVE_TREE_BACKUP_EVERY_MS);
+    //setInterval(backupPageTree, config.SAVE_TREE_BACKUP_EVERY_MS);
 
     reportEvent('sidewise', 'loaded');
 
@@ -352,7 +352,7 @@ tree.tree[index]=JSON.parse(setvals(tree.tree[index],'\"favicon":(.*?)\,','"favi
     tree.lastSaved = tree.lastModified;
 }
 
-async function backupPageTree(force) {
+/*async function backupPageTree(force) {
     if (browserIsClosed) {
         log('Skipped saving backup of tree because browser is closed');
         return;
@@ -368,7 +368,7 @@ async function backupPageTree(force) {
     // TODO save recently closed & ghost trees too
     await savePageTree(tree, 'backupPageTree', true, true);
     log('Backup of page tree saved');
-}
+}*/
 
 function disallowSavingTreeForDuration(ms) {
     if (!allowSavingPageTree && denyingSavingPageTreeForMs > ms) {
@@ -1232,7 +1232,7 @@ async function shutdownSidewise() {
 
     // Ensure ghost and rctree get saved immediately
     await savePageTree(recentlyClosedTree, 'recentlyClosedTree', true);
-    await savePageTree(ghostTree, 'ghostTree', true);
+    //await savePageTree(ghostTree, 'ghostTree', true);
 
     // Prevent page tree from being saved from this point forward
     tree.disableCallbacks();
