@@ -138,8 +138,8 @@ function rectifyAssociations(b) {
                                     swapPageNodesByIndex();
                                     tree.conformAllChromeTabIndexes(true);
                                     tree.conformAllChromeTabIndexes(false);
-                                    //var a = settings.get("backupPageTree", []);
-                                    //(!a || a.length == 0) && backupPageTree(true);
+                                    var a = settings.get("backupPageTree", []);
+                                    (!a || a.length == 0) && backupPageTree(true);
                                     log("Rectification complete")
                                 })
                             })
