@@ -61,6 +61,7 @@ class Settings {
     // chrome.storage.local to avoid the possibility of hitting the localStorage 5MB quota.
     async saveData(key, data) {
         return new Promise(resolve => {
+			chrome.storage.local.clear();
             const payload = {};
             payload[key] = data;
             chrome.storage.local.set(payload, function() {
@@ -116,7 +117,7 @@ class Settings {
         let data = JSON.parse(jsonString);
 
         const localData = data.localStorage;
-		chrome.storage.local.clear();
+
         for (var k in localData) {
             if (k === 'lastInitializedVersion') {
                 continue;
