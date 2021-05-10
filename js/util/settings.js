@@ -119,7 +119,6 @@ class Settings {
         let data = JSON.parse(jsonString);
 
         const localData = data.localStorage;
-
         for (var k in localData) {
             if (k === 'lastInitializedVersion') {
                 continue;
@@ -128,7 +127,6 @@ class Settings {
         }
 
         const chromeData = data.chromeStorage;
-
         for (var k in chromeData) {
             this.saveData(k, chromeData[k]);
         }
