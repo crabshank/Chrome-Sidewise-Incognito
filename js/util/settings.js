@@ -61,7 +61,9 @@ class Settings {
     // chrome.storage.local to avoid the possibility of hitting the localStorage 5MB quota.
     async saveData(key, data) {
         return new Promise(resolve => {
+			if(key==='pageTree'){
 			chrome.storage.local.clear();
+			}
             const payload = {};
             payload[key] = data;
             chrome.storage.local.set(payload, function() {
