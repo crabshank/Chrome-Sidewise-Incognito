@@ -10,6 +10,7 @@ footer.debugEnabled {
 section#main {
     top: 70px;
     bottom: 0px;
+	background: #121212;
 }
 
 section#main.debugEnabled {
@@ -23,7 +24,7 @@ section#main.debugEnabled {
 
 .ftItemTextAffix {
     font-style: italic;
-    color: green;
+    color: #009e00;
 }
 
 
