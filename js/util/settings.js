@@ -61,16 +61,77 @@ class Settings {
     // chrome.storage.local to avoid the possibility of hitting the localStorage 5MB quota.
     async saveData(key, data) {
         return new Promise(resolve => {
-			if(key==='pageTree'){
-			chrome.storage.local.clear();
-			}
-            const payload = {};
-            payload[key] = data;
-            chrome.storage.local.set(payload, function() {
-                resolve();
+			var pageTree_bak=null;
+			var recentlyClosedTree_bak=null;
+			var backupPageTree_bak=null;
+			chrome.storage.local.get(null, function(items) {
+                var allKeys=Object.keys(items);
+				allKeys.forEach((key)=>{
+					if(key!=='pageTree' && key!=='recentlyClosedTree' && key!=='backupPageTree'){
+						chrome.storage.local.removeItem(key);
+					}else{
+						if(key==='pageTree'){
+							pageTree_bak=items[key];
+						}else if(key==='recentlyClosedTree'){
+							recentlyClosedTree_bak=items[key];
+						}else if(key==='backupPageTree'){
+							backupPageTree_bak=items[key];
+						}
+					}
+				});		
+				
+				//Check there are no unwanted trees
+				chrome.storage.local.get(null, function(items) {
+                var allKeys=Object.keys(items);
+					var okay=true;
+				allKeys.forEach((key)=>{
+					if(key!=='pageTree' && key!=='recentlyClosedTree' && key!=='backupPageTree'){
+						okay=false;
+					}
+				});		
+				
+				if(okay && (key==='pageTree' || key==='recentlyClosedTree' || key==='backupPageTree')){
+					chrome.storage.local.clear(function() {
+						const payload = {};
+						payload[key] = data;
+						
+						if(key==='pageTree'){
+							if(!!recentlyClosedTree_bak){
+							payload['recentlyClosedTree'] = recentlyClosedTree_bak;
+							}
+							if(!!backupPageTree_bak){
+							payload['backupPageTree'] = backupPageTree_bak;
+							}
+						}else if(key==='recentlyClosedTree'){
+							if(!!pageTree_bak){
+							payload['pageTree'] = pageTree_bak;
+							}
+							if(!!backupPageTree_bak){
+							payload['backupPageTree'] = backupPageTree_bak;
+							}
+						}else if(key==='backupPageTree'){
+							if(!!recentlyClosedTree_bak){
+							payload['recentlyClosedTree'] = recentlyClosedTree_bak;
+							}
+							if(!!pageTree_bak){
+							payload['pageTree'] = pageTree_bak;
+							}
+						}
+						
+						
+						chrome.storage.local.set(payload, function() {
+							resolve();
+						});
+					});
+
+				}
+
             });
+           
         });
-    }
+    });
+	
+	}
 
     // Load data from chrome.storage.local.
     async loadData(key, defaultValue) {
