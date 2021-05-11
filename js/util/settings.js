@@ -68,7 +68,7 @@ class Settings {
                 var allKeys=Object.keys(items);
 				allKeys.forEach((key)=>{
 					if(key!=='pageTree' && key!=='recentlyClosedTree' && key!=='backupPageTree'){
-						chrome.storage.local.removeItem(key);
+						chrome.storage.local.remove(key);
 					}else{
 						if(key==='pageTree'){
 							pageTree_bak=items[key];
