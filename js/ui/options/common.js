@@ -660,17 +660,17 @@ async function submitBugReport() {
 ///////////////////////////////////////////////////////////
 
 async function restoreFromPreviousSessionBackup() {
-    var backup = await settings.loadData('backupPageTreeLastSession', []);
+   /* var backup = await settings.loadData('backupPageTreeLastSession', []);
     var when;
     if (backup.length > 0) {
         when = 'during your PREVIOUS browser session';
     }
-    else {
+    else {*/
         backup = await settings.lodaData('backupPageTree', []);
         if (backup.length > 0) {
-            when = 'earlier THIS browser session';
+           var when = 'earlier THIS browser session';
         }
-    }
+    //}
     if (backup.length == 0) {
         alert('Sorry, but there are no automatic backups to restore from! :(');
         return;
