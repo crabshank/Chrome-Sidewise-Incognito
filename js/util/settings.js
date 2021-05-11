@@ -281,7 +281,8 @@ class Settings {
         console.log('Initiating migration of tree data to chrome.storage.local');
 
         // Need to migrate now
-        var treeNames = ['pageTree', 'backupPageTree', 'backupPageTreeLastSession', 'ghostTree', 'recentlyClosedTree'];
+        //var treeNames = ['pageTree', 'backupPageTree', 'backupPageTreeLastSession', 'ghostTree', 'recentlyClosedTree'];
+        var treeNames = ['pageTree', 'backupPageTree', 'ghostTree', 'recentlyClosedTree'];
 
         for (const i in treeNames) {
             var name = treeNames[i];
