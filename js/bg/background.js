@@ -144,12 +144,12 @@ async function postLoad(focusedWin) {
     var backup = await loadTreeData('backupPageTree');
 console.log(backup);
     var haveBackup = backup && backup.length > 0;
-    if (haveBackup) {
+    /*if (haveBackup) {
         // Write out an additional backup copy of the tree data backup. This gives us one more possible
         // rollback point in case of subsequent tree data corruption. We don't block on this operation
         // because it is OK for it to just happen in the background asynchronously.
         settings.saveData('backupPageTreeLastSession', backup);
-    }
+    }*/
 
     var storedPageTree = await loadTreeData('pageTree');
 	initTree=storedPageTree;
