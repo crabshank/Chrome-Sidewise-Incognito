@@ -694,7 +694,7 @@ async function restoreFromPreviousSessionBackup() {
 ///////////////////////////////////////////////////////////
 
 async function exportState() {
-    await bg.savePageTree(bg.tree, 'pageTree', true);
+    await bg.savePageTree(bg.tree, 'pageTree');
     var head = '/* Sidewise Data Export: v' + getVersion() + ' exported on ' + Date().toString() + ' */ ';
     var tail = ' /* End Sidewise Data */';
     copyTextToClipboard(head + await bg.settings.toJSON() + tail);
