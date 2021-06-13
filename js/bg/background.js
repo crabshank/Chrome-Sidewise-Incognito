@@ -52,7 +52,7 @@ function onLoad()
             undefined,
             function() {
                 //truncateRecentlyClosedTree(settings.get('closed_maxPagesRemembered'));
-                savePageTree(recentlyClosedTree, 'recentlyClosedTree', true);
+                savePageTree(recentlyClosedTree, 'recentlyClosedTree');
             },
             config.TREE_ONMODIFIED_DELAY_ON_STARTUP_MS * 0.9,
             config.TREE_ONMODIFIED_STARTUP_DURATION_MS,
@@ -63,7 +63,8 @@ function onLoad()
             function() {},
             undefined,
             function() {
-                savePageTree(ghostTree, 'ghostTree', false);
+                savePageTree(ghostTree, 'backupPageTree');
+                savePageTree(tree, 'pageTree');
             },
             config.TREE_ONMODIFIED_DELAY_ON_STARTUP_MS * 0.95,
             config.TREE_ONMODIFIED_STARTUP_DURATION_MS,
@@ -104,7 +105,7 @@ async function onPageTreeModifiedDelayed() {
         return;
     }
     if (tree.lastModified != tree.lastSaved) {
-        await savePageTree(tree, 'pageTree', true);
+        await savePageTree(tree, 'pageTree');
 			backupPageTree(true);
         tree.lastSaved = tree.lastModified;
     }
@@ -326,12 +327,12 @@ tree.tree[index]=JSON.parse(setvals(tree.tree[index],'\"favicon":(.*?)\,','"favi
 
 	}
 */
-    if (!force && !(!tree.lastModified || !tree.lastSaved || tree.lastModified != tree.lastSaved) ) {
+   /* if (!force && !(!tree.lastModified || !tree.lastSaved || tree.lastModified != tree.lastSaved) ) {
 
         // no changes to save (and !force)
         log(`Not saving tree "${settingName}": no changes`);
         return;
-    }
+    }*/
 
     log('--- saving tree to ' + settingName + ' ---');
 
@@ -366,7 +367,7 @@ async function backupPageTree(force) {
 
     // TODO save N backup copies also, i.e. save up to 1 per day for preceding 30 days
     // TODO save recently closed & ghost trees too
-    await savePageTree(tree, 'backupPageTree', true, true);
+    await savePageTree(tree, 'backupPageTree');
     log('Backup of page tree saved');
 }
 
@@ -1231,8 +1232,9 @@ async function shutdownSidewise() {
     browserIsClosed = true;
 
     // Ensure ghost and rctree get saved immediately
-    await savePageTree(recentlyClosedTree, 'recentlyClosedTree', true);
-    await savePageTree(ghostTree, 'ghostTree', true);
+    await savePageTree(recentlyClosedTree, 'recentlyClosedTree');
+    await savePageTree(ghostTree, 'backupPageTree');
+    await savePageTree(tree, 'pageTree');
 
     // Prevent page tree from being saved from this point forward
     tree.disableCallbacks();
