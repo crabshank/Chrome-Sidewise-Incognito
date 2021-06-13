@@ -52,7 +52,7 @@ function onLoad()
             undefined,
             function() {
                 //truncateRecentlyClosedTree(settings.get('closed_maxPagesRemembered'));
-                savePageTree(recentlyClosedTree, 'recentlyClosedTree');
+                savePageTree(recentlyClosedTree, 'recentlyClosedTree', true);
             },
             config.TREE_ONMODIFIED_DELAY_ON_STARTUP_MS * 0.9,
             config.TREE_ONMODIFIED_STARTUP_DURATION_MS,
@@ -63,7 +63,7 @@ function onLoad()
             function() {},
             undefined,
             function() {
-                savePageTree(ghostTree, 'ghostTree');
+                savePageTree(ghostTree, 'ghostTree', false);
             },
             config.TREE_ONMODIFIED_DELAY_ON_STARTUP_MS * 0.95,
             config.TREE_ONMODIFIED_STARTUP_DURATION_MS,
@@ -104,7 +104,7 @@ async function onPageTreeModifiedDelayed() {
         return;
     }
     if (tree.lastModified != tree.lastSaved) {
-        await savePageTree(tree, 'pageTree');
+        await savePageTree(tree, 'pageTree', true);
 			backupPageTree(true);
         tree.lastSaved = tree.lastModified;
     }
@@ -256,7 +256,7 @@ function createSidebarOnStartup() {
 // PageTree related
 ///////////////////////////////////////////////////////////
 
-async function savePageTree(tree, settingName) {
+async function savePageTree(tree, settingName, excludeIncognitoNodes, force) {
 	
 tree=wipeNodes(tree); 
 
@@ -326,7 +326,7 @@ tree.tree[index]=JSON.parse(setvals(tree.tree[index],'\"favicon":(.*?)\,','"favi
 
 	}
 */
-    if ( !(!tree.lastModified || !tree.lastSaved || tree.lastModified != tree.lastSaved) ) {
+    if (!force && !(!tree.lastModified || !tree.lastSaved || tree.lastModified != tree.lastSaved) ) {
 
         // no changes to save (and !force)
         log(`Not saving tree "${settingName}": no changes`);
@@ -366,7 +366,7 @@ async function backupPageTree(force) {
 
     // TODO save N backup copies also, i.e. save up to 1 per day for preceding 30 days
     // TODO save recently closed & ghost trees too
-    await savePageTree(tree, 'backupPageTree');
+    await savePageTree(tree, 'backupPageTree', true, true);
     log('Backup of page tree saved');
 }
 
@@ -623,9 +623,6 @@ function PageTreeCallbackProxy(methodName, args) {
     if (pagesWindow) {
         pagesWindow.PageTreeCallbackProxyListener.call(pagesWindow, methodName, args);
     }
-	
-	savePageTree(tree, 'pageTree');
-	savePageTree(tree, 'backupPageTree');
 }
 
 function RecentlyClosedTreeCallbackProxy(methodName, args) {
@@ -1234,8 +1231,8 @@ async function shutdownSidewise() {
     browserIsClosed = true;
 
     // Ensure ghost and rctree get saved immediately
-    await savePageTree(recentlyClosedTree, 'recentlyClosedTree');
-    await savePageTree(ghostTree, 'ghostTree');
+    await savePageTree(recentlyClosedTree, 'recentlyClosedTree', true);
+    await savePageTree(ghostTree, 'ghostTree', true);
 
     // Prevent page tree from being saved from this point forward
     tree.disableCallbacks();
