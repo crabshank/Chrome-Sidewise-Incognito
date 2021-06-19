@@ -91,7 +91,7 @@ class Settings {
 				});		
 				
 				if(okay && (key==='pageTree' || key==='recentlyClosedTree' || key==='backupPageTree')){
-					chrome.storage.local.clear(function() {
+					chrome.storage.local.remove(key,function() {
 						const payload = {};
 						payload[key] = data;
 						
