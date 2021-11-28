@@ -1,7 +1,9 @@
 {
+"update_url": "https://clients2.google.com/service/update2/crx",
+
     "manifest_version": 2,
 	"name": "__MSG_extName__",
-	"version": "2017.2.13.0",
+	"version": "2021.10",
 	"description": "__MSG_extDescription__",
 	"icons": {
         "16": "images/sidewise_icon_16.png",
@@ -26,7 +28,6 @@
 	],
 	"default_locale": "en",
     "homepage_url": "http://www.sidewise.info",
-    "minimum_chrome_version": "56.0.2924.87",
     "omnibox": { "keyword": "sw" },
 	"options_page": "options.html",
 	"permissions": [

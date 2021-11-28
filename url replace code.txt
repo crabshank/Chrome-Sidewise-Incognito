@@ -1,0 +1,32 @@
+var regex = /(\.|[a-z]|\$|\_|[0-9]|\[[0-9]{1,}\]){1,}\.url/g;
+var tx=$('html body textarea').value;
+var a=tx.match(regex);
+var b=tx.match(regex);
+for (let i=0; i<a.length;  i++){
+b[i]=b[i].replace(".url", ")");
+}
+
+for (let j=0; j<a.length;  j++){
+b[j]='getUrl('+b[j];
+}
+
+
+for (let k=0; k<a.length;  k++){
+$('html body textarea').value=$('html body textarea').value.split(a[k]).join(b[k]);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+function getUrl(tab){
+	if(tab.pendingUrl!=null){
+	return (tab.url=="")?tab.pendingUrl:tab.url;
+	}else{
+		
+		if(tab.url!=null){
+			return tab.url;
+		}else{
+			return tab; //if tab.url not there
+		}
+	
+	}
+}
