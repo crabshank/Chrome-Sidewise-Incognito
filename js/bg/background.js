@@ -367,7 +367,8 @@ async function backupPageTree(force) {
 
     // TODO save N backup copies also, i.e. save up to 1 per day for preceding 30 days
     // TODO save recently closed & ghost trees too
-    await savePageTree(tree, 'backupPageTree');
+	savePageTree(recentlyClosedTree, 'recentlyClosedTree');
+    await savePageTree(tree, 'pageTree');
     log('Backup of page tree saved');
 }
 
