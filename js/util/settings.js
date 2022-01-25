@@ -60,98 +60,45 @@ class Settings {
     // chrome.storage.local to avoid the possibility of hitting the localStorage 5MB quota.
     async saveData(key, data) {
         return new Promise(resolve => {
-            var pageTree_bak = null;
-            var backupPageTree_bak = null;
-            var recentlyClosedTree_bak = null;
-            chrome.storage.local.get(null, function(items) {
-                var allKeys = Object.keys(items);
-                allKeys.forEach((aKey) => {
-                    if (aKey !== 'pageTree' && aKey !== 'recentlyClosedTree' && aKey !== 'backupPageTree') {
-                        chrome.storage.local.remove(aKey);
-                    } else {
-                        if (aKey === 'pageTree') {
-                            pageTree_bak = items[aKey];
-                        } else if (aKey === 'recentlyClosedTree') {
-                            recentlyClosedTree_bak = items[aKey];
-                        } else if (aKey === 'backupPageTree') {
-                            backupPageTree_bak = items[aKey];
-                        }
-                    }
-                });
-
-                //Check there are no unwanted trees
-                chrome.storage.local.get(null, function(items) {
-                    var allKeys = Object.keys(items);
-                    var okay = true;
-                    allKeys.forEach((aKey) => {
-                        if (aKey !== 'pageTree' && aKey !== 'recentlyClosedTree' && aKey !== 'backupPageTree') {
-                            okay = false;
-                        }
-                    });
-
-                    if (okay) {
-
-                        var payload = {};
-                        var isTree = (key === 'pageTree' || key === 'backupPageTree') ? true : false;
-
-                        if (isTree || key === 'recentlyClosedTree') {
-
-                            if (isTree) {
-                                chrome.storage.local.remove('pageTree', function() {
-                                    chrome.storage.local.remove('backupPageTree', function() {
-
-                                        chrome.storage.local.remove(key, function() {
-
-                                            payload[key] = data;
-
-                                            if (key === 'pageTree') {
-                                                payload['backupPageTree'] = data;
-                                                if (!!recentlyClosedTree_bak) {
-                                                    payload['recentlyClosedTree'] = recentlyClosedTree_bak;
-                                                }
-                                            } else if (key === 'backupPageTree') {
-                                                //payload['pageTree'] = data;
-                                                if (!!recentlyClosedTree_bak) {
-                                                    payload['recentlyClosedTree'] = recentlyClosedTree_bak;
-                                                }
-                                            }
-
-                                            chrome.storage.local.set(payload, function() {
-                                                resolve();
-                                            });
-                                        });
-
-                                    });
-                                });
-                            } else {
-
-                                chrome.storage.local.remove(key, function() {
-
-                                    payload[key] = data;
-                                    if (key === 'recentlyClosedTree') {
-                                        if (!!pageTree_bak) {
-                                            payload['pageTree'] = pageTree_bak;
-                                        }
-                                        if (!!backupPageTree_bak) {
-                                            payload['backupPageTree'] = backupPageTree_bak;
-                                        }
-                                    }
-                                    chrome.storage.local.set(payload, function() {
-                                        resolve();
-                                    });
-                                });
-
-                            }
-
-                        }
-                    }
-
-                });
-
-            });
-        });
-
-    }
+			var payload={};
+				if(key==="pageTree"){
+					payload["pageTree2"] = data;
+					chrome.storage.local.set(payload, function() {
+						payload["backupPageTree2"] = data;
+							chrome.storage.local.set(payload, function() {
+								chrome.storage.local.remove("pageTree", function() {
+									chrome.storage.local.remove("backupPageTree", function() {
+											payload["pageTree"] = data;							
+											chrome.storage.local.set(payload, function() {
+												payload["backupPageTree"] = data;							
+												chrome.storage.local.set(payload, function() {
+													chrome.storage.local.remove("pageTree2", function() {
+														chrome.storage.local.remove("backupPageTree2", function() {
+															 resolve(); //DONE!
+														});									
+													});										
+												});										
+											});									
+									});
+								});		
+							});
+						});
+					
+				}else if(key==="recentlyClosedTree"){
+					payload["recentlyClosedTree2"] = data;
+					chrome.storage.local.set(payload, function() {
+								chrome.storage.local.remove("recentlyClosedTree", function() {
+											payload["recentlyClosedTree"] = data;
+											chrome.storage.local.set(payload, function() {
+													chrome.storage.local.remove("recentlyClosedTree2", function() {
+														 resolve(); //DONE!
+													});		
+											});
+								});	
+                     });
+				}
+		});
+	}
 
     // Load data from chrome.storage.local.
     async loadData(key, defaultValue) {
