@@ -244,14 +244,13 @@ img.ftIconButton.ftButton__page_close {
 }
 
 .ftMultiselecting .ftFocused:not(.ftSelected) > .ftItemRow > .ftItemRowContent {
-    background: #fff;
+    background: rgb(50, 50, 50);
     border: 1px dashed blue;
 }
 
 .ftCollapsed.ftChildFocused > .ftItemRow > .ftItemRowContent {
     border: 1px dashed rgb(125, 162, 206);
 }
-
 
 /* context menus */
 
