@@ -773,7 +773,7 @@ function onPageRowClick(b) {
 					})
 				});
 			}else{
-				  ft.removeRow(c.id, false);
+				  ft.removeRow(c[0].id, false);
 			}
         });
         a.startTooltipTimer(c, b, 2E3)
