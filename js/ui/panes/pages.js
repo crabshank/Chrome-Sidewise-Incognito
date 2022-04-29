@@ -759,18 +759,22 @@ function onPageRowClick(b) {
         if (!d || bg.tree.focusedTabId != getChromeId(c)) ft.focusRow(c), chrome.tabs.update(getChromeId(c), {
             active: !0
         }, function(a) {
-            chrome.windows.get(a.windowId, function(a) {
-                "minimized" ==
-                a.state && chrome.windows.update(a.id, {
-                    state: "normal"
-                });
-                a.focused || chrome.windows.update(a.id, {
-                    focused: !0
-                });
-                d && chrome.windows.update(bg.sidebarHandler.windowId, {
-                    focused: !0
-                })
-            })
+			if(!!a && typeof a!=='undefined'){
+				chrome.windows.get(a.windowId, function(a) {
+					"minimized" ==
+					a.state && chrome.windows.update(a.id, {
+						state: "normal"
+					});
+					a.focused || chrome.windows.update(a.id, {
+						focused: !0
+					});
+					d && chrome.windows.update(bg.sidebarHandler.windowId, {
+						focused: !0
+					})
+				});
+			}else{
+				  ft.removeRow(c.id, false);
+			}
         });
         a.startTooltipTimer(c, b, 2E3)
     }
