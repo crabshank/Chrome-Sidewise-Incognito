@@ -33,7 +33,7 @@ FancyTree.prototype.removeRow = function(a, b, c, e) {
     !0 !== c && (this.updateRowExpander(f), this.formatLineageTitles(f.add(d).add(g)))
 	let a_url=a[0].getAttribute('url');
 	if(!!a_url && typeof a_url !=='undefined' && a_url!==''){
-		console.log('Removed: '+));
+		console.log('Removed: '+a_url);
 	}
 };
 FancyTree.prototype.moveRow = function(a, b, c, e, f) {
