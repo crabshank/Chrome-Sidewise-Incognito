@@ -772,8 +772,6 @@ function onPageRowClick(b) {
 						focused: !0
 					})
 				});
-			}else{
-				  ft.removeRow(c[0].id, false);
 			}
         });
         a.startTooltipTimer(c, b, 2E3)
