@@ -31,7 +31,10 @@ FancyTree.prototype.removeRow = function(a, b, c, e) {
     e || this.removeMultiSelectionSingle(a);
     this.hideTooltip();
     !0 !== c && (this.updateRowExpander(f), this.formatLineageTitles(f.add(d).add(g)))
-	console.log('Removed: '+a[0].getAttribute('url'));
+	let a_url=a[0].getAttribute('url');
+	if(!!a_url && typeof a_url !=='undefined' && a_url!==''){
+		console.log('Removed: '+));
+	}
 };
 FancyTree.prototype.moveRow = function(a, b, c, e, f) {
     var d = this.getRow(a),
