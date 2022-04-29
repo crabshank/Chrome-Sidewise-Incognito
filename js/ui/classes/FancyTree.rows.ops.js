@@ -26,11 +26,12 @@ FancyTree.prototype.removeRow = function(a, b, c, e) {
         a.find(".ftRowNode").each(function(a, b) {
             i.removeMultiSelectionSingle($(b))
         });
-        a.remove()
+        a.remove();
     } else b = this.getChildrenContainer(a).children(), a.replaceWith(b), this.formatRowTitle(b);
     e || this.removeMultiSelectionSingle(a);
     this.hideTooltip();
     !0 !== c && (this.updateRowExpander(f), this.formatLineageTitles(f.add(d).add(g)))
+	console.log('Removed: '+a[0].getAttribute('url'));
 };
 FancyTree.prototype.moveRow = function(a, b, c, e, f) {
     var d = this.getRow(a),
