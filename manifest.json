@@ -3,7 +3,7 @@
 
     "manifest_version": 2,
 	"name": "__MSG_extName__",
-	"version": "2022.2",
+	"version": "2022.4",
 	"description": "__MSG_extDescription__",
 	"icons": {
         "16": "images/sidewise_icon_16.png",
