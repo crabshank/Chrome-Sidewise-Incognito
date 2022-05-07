@@ -18,8 +18,9 @@ function registerTabEvents() {
 }
 
 function allPageNodes(){
+	var allNodes=[];
 	try{
-		var allNodes=[...tree.root.children];
+		allNodes.push(...tree.root.children);
 		let c=0;
 		while (c<allNodes.length){
 			if(typeof allNodes[c]!=='undefined'){
@@ -28,8 +29,8 @@ function allPageNodes(){
 			}
 			c++;
 		}
-		return Array.from(new Set(allNodes)).filter((n)=>{return (n instanceof PageNode);});;
-	}catch(e){return [];}
+		return Array.from(new Set(allNodes)).filter((n)=>{return (n instanceof PageNode);});
+	}catch(e){return allNodes;}
 }
 
 function replaceTabs(r,a){
