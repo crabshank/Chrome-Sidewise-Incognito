@@ -151,14 +151,21 @@ function onTabCreated(a) {
 function onTabRemoved(a, c, b) {	
 	let pgs=allPageNodes();
 	let tu_el=tab_urls.findIndex((t)=>{return t[0]==a;});
+	let nd;
 	if(tu_el>=0){
 		let n_id=pgs.findIndex((p)=>{return p.chromeId==a;});
 		let n_url=pgs.findIndex((p)=>{return p.url==tab_urls[tu_el][1];});
 		
 		if(n_id>=0){
-			tree.removeNode(pgs[n_id]);
+			nd=pgs[n_id];
+			if(!nd.hibernated){
+				tree.removeNode(nd);
+			}
 		}else if(n_url>=0){
-			tree.removeNode(pgs[n_url]);
+			nd=pgs[n_url];
+			if(!nd.hibernated){
+				tree.removeNode(nd);
+			}
 		}	
 		tab_urls=tab_urls.filter((t,index)=>{return index!=tu_el;});
 	}
