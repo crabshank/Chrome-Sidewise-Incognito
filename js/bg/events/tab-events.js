@@ -148,6 +148,20 @@ function onTabCreated(a) {
 
 
 function onTabRemoved(a, c, b) {	
+	let pgs=allPageNodes();
+	let tu_el=tab_urls.findIndex((t)=>{return t[0]==a;});
+	if(tu_el>=0){
+		let n_id=pgs.findIndex((p)=>{return p.chromeId==a;});
+		let n_url=pgs.findIndex((p)=>{return p.url==tab_urls[tu_el][1];});
+		
+		if(n_id>=0){
+			tree.removeNode(pgs[n_id]);
+		}else if(n_url>=0){
+			tree.removeNode(pgs[n_url]);
+		}	
+		tab_urls=tab_urls.filter((t,index)=>{return index!=tu_el;});
+	}
+
     if (!monitorInfo.isDetecting() && a != sidebarHandler.tabId) {
         log(a, c, "denyTabSwap", b || !1);
         if (expectingNavigationTabIdSwap && !b)
@@ -190,19 +204,6 @@ function onTabRemoved(a, c, b) {
                     disallowSavingTreeForDuration(TAB_REMOVE_SAVE_TREE_DELAY_MS), tree.removeNode(b), d instanceof WindowNode && 0 == d.children.length && tree.removeNode(d))
             }
     }
-	let pgs=allPageNodes();
-	let tu_el=tab_urls.findIndex((t)=>{return t[0]==a;});
-	if(tu_el>=0){
-		let n_id=pgs.findIndex((p)=>{return p.chromeId==a;});
-		let n_url=pgs.findIndex((p)=>{return p.url==tab_urls[tu_el][1];});
-		
-		if(n_id>=0){
-			tree.removeNode(pgs[n_id]);
-		}else if(n_url>=0){
-			tree.removeNode(pgs[n_url]);
-		}	
-		tab_urls=tab_urls.filter((t,index)=>{return index!=tu_el;});
-	}
 }
 
 function findNextTabToFocus(a, c) {
