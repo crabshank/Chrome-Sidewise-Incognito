@@ -209,7 +209,7 @@ function onTabRemoved(a, c, b) {
                             }
                         } else log("Smart focus found nothing suitable, letting Chrome decide")
                     } b.hibernated || (d = b.parent,
-                    disallowSavingTreeForDuration(TAB_REMOVE_SAVE_TREE_DELAY_MS), /*tree.removeNode(b),*/ d instanceof WindowNode && 0 == d.children.length /*&& tree.removeNode(d)*/)
+                    disallowSavingTreeForDuration(TAB_REMOVE_SAVE_TREE_DELAY_MS), /*tree.removeNode(b),*/ d instanceof WindowNode && 0 == d.children.length && tree.removeNode(d))
             }
     }
 }
