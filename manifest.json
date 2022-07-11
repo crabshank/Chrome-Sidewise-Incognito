@@ -13,6 +13,7 @@
         "256": "images/sidewise_icon_256.png"
 	},
 	"background": {
+		"persistent": true,
         "page": "background.html"
     },
 	"browser_action": {
