@@ -46,6 +46,13 @@ function onTabCreated(a) {
     if (!monitorInfo.isDetecting())
         if (sidebarHandler.creatingSidebar && getUrl(a) == sidebarHandler.sidebarUrl) log("ignoring creation of the sidebar");
         else {
+			
+			let tu=getUrl(a);
+
+			if(!!tu && typeof tu!=='undefined' && tu!==""){
+					tab_urls.push([a.id,tu]);
+			}
+			
             var c = !1;
             if (expectingNavigationTabIdSwap)
                 if (0 <= expectingNavigationPossibleNewTabIds.indexOf(a.id)) {
@@ -256,7 +263,7 @@ function onTabUpdated(a, c, b) {
 		}else{
 			tab_urls.push([b.id,c.url]);
 		}
-	}
+	}	
     log(b, c, a);
     if (a != sidebarHandler.tabId && !monitorInfo.isDetecting()) {
         var d = tree.getNode(["chromeId", a]);
