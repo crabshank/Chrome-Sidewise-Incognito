@@ -2,8 +2,7 @@
 var TAB_REMOVE_SAVE_TREE_DELAY_MS = 3E3,
     SMART_FOCUS_DISABLE_FOR_TABS_CREATED_IN_LAST_MS = 8E3,
     expectingSmartFocusTabId = null,
-    expectingTabMoves = [],
-	tab_urls=[];
+    expectingTabMoves = [];
 
 function registerTabEvents() {
     chrome.tabs.onCreated.addListener(onTabCreated);
@@ -34,7 +33,19 @@ function allPageNodes(){
 }
 
 function replaceTabs(r,a){
-	tab_urls=tab_urls.map((t)=>{return (t[0]==r)?[a,t[1]]:t;});
+let pgs=allPageNodes();
+
+let n_id=pgs.findIndex((p)=>{return p.chromeId===r;});
+		
+		if(n_id>=0){
+			nd=pgs[n_id];
+			nd.chromeId=a;
+		}else{
+				let n=tree.getNode(["chromeId", b.id]); if(typeof n!=='undefined'){
+					n.chromeId=a;
+				}
+		}
+
 }
 
 function onTabReplaced (addedTabId, removedTabId) {
@@ -46,13 +57,6 @@ function onTabCreated(a) {
     if (!monitorInfo.isDetecting())
         if (sidebarHandler.creatingSidebar && getUrl(a) == sidebarHandler.sidebarUrl) log("ignoring creation of the sidebar");
         else {
-			
-			let tu=getUrl(a);
-
-			if(!!tu && typeof tu!=='undefined' && tu!==""){
-					tab_urls.push([a.id,tu]);
-			}
-			
             var c = !1;
             if (expectingNavigationTabIdSwap)
                 if (0 <= expectingNavigationPossibleNewTabIds.indexOf(a.id)) {
@@ -157,25 +161,21 @@ function onTabCreated(a) {
 
 function onTabRemoved(a, c, b) {	
 	let pgs=allPageNodes();
-	let tu_el=tab_urls.findIndex((t)=>{return t[0]==a;});
-	let nd;
-	if(tu_el>=0){
-		let n_id=pgs.findIndex((p)=>{return p.chromeId==a;});
-		let n_url=pgs.findIndex((p)=>{return p.url==tab_urls[tu_el][1];});
+
+		let n_id=pgs.findIndex((p)=>{return p.chromeId===a;});
 		
 		if(n_id>=0){
 			nd=pgs[n_id];
 			if(!nd.hibernated){
 				tree.removeNode(nd);
 			}
-		}else if(n_url>=0){
-			nd=pgs[n_url];
-			if(!nd.hibernated){
-				tree.removeNode(nd);
-			}
-		}	
-		tab_urls=tab_urls.filter((t,index)=>{return index!=tu_el;});
-	}
+		}else{
+				let n=tree.getNode(["chromeId", a]); if(typeof n!=='undefined'){
+					if(!n.hibernated){
+						tree.removeNode(n);
+					}
+				}
+		}
 
     if (!monitorInfo.isDetecting() && a != sidebarHandler.tabId) {
         log(a, c, "denyTabSwap", b || !1);
@@ -255,15 +255,21 @@ function testNodeForFocus(a, c) {
 }
 
 function onTabUpdated(a, c, b) {
-	var tu_el;
+
 	if(c.url){
-		tu_el=tab_urls.findIndex((t)=>{return t[0]==b.id;});
-		if(tu_el>=0){
-			tab_urls[tu_el][1]=c.url;
+		let pgs=allPageNodes();
+
+		let n_id=pgs.findIndex((p)=>{return p.chromeId===b.id;});
+		
+		if(n_id>=0){
+			nd=pgs[n_id];
+			nd.url=c.url;
 		}else{
-			tab_urls.push([b.id,c.url]);
+				let n=tree.getNode(["chromeId", b.id]); if(typeof n!=='undefined'){
+					n.url=c.url;
+				}
 		}
-	}	
+	}
     log(b, c, a);
     if (a != sidebarHandler.tabId && !monitorInfo.isDetecting()) {
         var d = tree.getNode(["chromeId", a]);
