@@ -255,24 +255,44 @@ function testNodeForFocus(a, c) {
 }
 
 function onTabUpdated(a, c, b) {
+		let fnd=false;
 		let pgs=allPageNodes();
 		let nd=null;
 		let n_id=pgs.findIndex((p)=>{return p.chromeId===b.id;});
-			if(n_id>=0){
-			nd=pgs[n_id];
-			nd.chromeId=b.id;
+		if(n_id>=0){
+				fnd=true;
+				nd=pgs[n_id];
+			
+				if(c.url){
+					nd.url=c.url;
+				}
+			
+				if(b.discarded){
+					tree.removeNode(nd);
+				}else{
+					nd.chromeId=b.id;
+				}
+		}else{
+
+			let n=tree.getNode(["chromeId", b.id]); if(typeof n!=='undefined'){
+					fnd=true;
+					if(c.url){
+						n.url=c.url;
+					}
+				
+					if(b.discarded){	
+						tree.removeNode(n);
+					}else{
+						n.id=b.id;
+					}
+			}
 		}
 		
-	if(c.url){
-		if(n_id>=0){
-			nd=pgs[n_id];
-			nd.url=c.url;
-		}else{
-				let n=tree.getNode(["chromeId", b.id]); if(typeof n!=='undefined'){
-					n.url=c.url;
-				}
+		if(!fnd){
+			if(!b.discarded){
+				 onTabCreated(b);
+			}
 		}
-	}
 	
     log(b, c, a);
     if (a != sidebarHandler.tabId && !monitorInfo.isDetecting()) {
