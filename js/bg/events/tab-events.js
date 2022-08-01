@@ -41,7 +41,7 @@ let n_id=pgs.findIndex((p)=>{return p.chromeId===r;});
 			nd=pgs[n_id];
 			nd.chromeId=a;
 		}else{
-				let n=tree.getNode(["chromeId", b.id]); if(typeof n!=='undefined'){
+				let n=tree.getNode(["chromeId", r]); if(typeof n!=='undefined'){
 					n.chromeId=a;
 				}
 		}
