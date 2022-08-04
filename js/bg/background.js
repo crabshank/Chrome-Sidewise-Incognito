@@ -51,7 +51,6 @@ function onLoad()
             RecentlyClosedTreeCallbackProxy,
             undefined,
             function() {
-                //truncateRecentlyClosedTree(settings.get('closed_maxPagesRemembered'));
                 savePageTree(recentlyClosedTree, 'recentlyClosedTree');
             },
             config.TREE_ONMODIFIED_DELAY_ON_STARTUP_MS * 0.9,
@@ -201,8 +200,6 @@ console.log(backup);
 
     // save a backup of pageTree periodically
     setInterval(backupPageTree, config.SAVE_TREE_BACKUP_EVERY_MS);
-
-    reportEvent('sidewise', 'loaded');
 
     monitorInfo = new MonitorInfo();
 
