@@ -197,7 +197,6 @@ class Settings {
             pages_clickOnMouseWheel: false,
             pages_showMediaPlayTime: true,
             pages_trimPageTitlePrefixes: false,
-            closed_maxPagesRemembered: 999999999999999,
             smartFocusOnClose: false,
             smartFocusPrefersCousins: false,
             smartFocusPrefersParent: true,
@@ -210,7 +209,6 @@ class Settings {
             wakeHibernatedPagesOnClick: false,
             animationEnabled: false,
             autoSelectChildrenOnDrag: true,
-            reportUsageStatistics: false,
             multiSelectActionConfirmThreshold: 30,
             showWhatsNewPane: true,
             lastPromoPageShownDate: null,
@@ -226,13 +224,6 @@ class Settings {
             if (oldValue != newValue) {
                 console.log('Initialized setting', setting, 'to:', newValue);
             }
-        }
-
-        if (lastInitVersion === undefined) {
-            reportEvent('sidewise', 'installed', version);
-            reportPageView('/installed');
-        } else {
-            reportEvent('sidewise', 'updated', version);
         }
 
         this.set('lastInitializedVersion', version);
