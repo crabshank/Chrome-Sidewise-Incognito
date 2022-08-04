@@ -158,8 +158,6 @@
     "option_multiSelectActionConfirmThreshold_units": { "message": "rows" },
     "option_multiSelectActionConfirmThreshold_hint": { "message": "#Sidewise will display a confirmation box before performing certain destructive actions, such as 'Close branch', when at least this many rows would be affected. //// Set this to 1 to be prompted as often as possible. //// Set this 0 to never be prompted." },
 
-    "option_closed_maxPagesRemembered": { "message": "Maximum recently closed items remembered" },
-
     "option_rememberOpenPagesBetweenSessions": { "message": "Tree remembers open tabs between browser sessions" },
     "option_rememberOpenPagesBetweenSessions_hint": { "message": "#When enabled, each time you restart Chrome, Sidewise will show any tabs you previously had open under a hibernated 'Last Session' row at the top of the Pages tree. From there you can selectively wake any or all of your previously open tabs. //// Disabling this option will prevent any 'Last Session' rows from showing. You can still access previous session activity via the **Recently closed** sidebar pane. //// **Pro tip:** If you have Chrome's 'Continue where I left off' option set (found in [Chrome's settings](chrome://settings)), Chrome has to reopen all your previously open tabs every time it starts up. By enabling this Sidewise option and switching the aforementioned Chrome option to 'Open the New Tab page' instead, Sidewise will retain your previous browsing session state for you, and Chrome won't have to reopen all your previously open tabs every startup. //// You can click a hibernated 'Last Session' row to automatically wake all previously open tabs in it." },
     "option_autoCollapseLastSessionWindows": { "message": "Automatically collapse Last Session windows on startup" },
@@ -181,8 +179,6 @@
     "option_sidebarTargetWidth_units": { "message": "pixels" },
     "option_sidebarTargetWidth_hint": { "message": "#You can drag the edges of the sidebar to adjust its width, but if you prefer you can specify an exact value here. //// Close and reopen the sidebar for this setting to take effect." },
     "option_alwaysShowAdvancedOptions": { "message": "Always show advanced options" },
-    "option_reportUsageStatistics": { "message": "Allow reporting to Google Analytics" },
-    "option_reportUsageStatistics_hint": { "message": "#Like many websites and other Chrome extensions, Sidewise uses Google Analytics to track usage levels of different parts of the extension. This tracking is [anonymized](https://developers.google.com/analytics/devguides/collection/gajs/methods/gaJSApi_gat#_gat._anonymizeIp) and no personal information is collected. //// If you'd rather not have Sidewise use Google Analytics tracking you can disable this option. //// To opt-out of all Google Analytics tracking browser-wide, install Google's [opt-out extension](https://chrome.google.com/webstore/detail/fllaojicojecljbmefodhfapmkghcbnh/details)." },
     "option_showWhatsNewPane": { "message": "Show the What's New sidebar pane whenever Sidewise is updated" },
 
     "optionsShowPanePicker": { "message": "Toggle and reorder available sidebar panes" },
