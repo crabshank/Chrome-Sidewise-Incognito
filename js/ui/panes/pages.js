@@ -120,7 +120,7 @@ function addPageTreeNodeToFancyTree(b, a, c, d) {
             incognito: a.incognito,
             hibernated: a.hibernated,
             type: a.type,
-            chromeid: a.chromeId
+            chromeId: a.chromeId
         }, a.collapsed)
     } else if (a instanceof bg.PageNode) e = b.getNewRowElem("page", a.id, "chrome://favicon", a.label, a.title, {
 		url: getUrl(a),
@@ -131,7 +131,7 @@ function addPageTreeNodeToFancyTree(b, a, c, d) {
         restorable: a.restorable,
         highlighted: a.highlighted,
         incognito: a.incognito,
-        chromeid: a.chromeId
+        chromeId: a.chromeId
     }, a.collapsed);
     else if (a instanceof bg.FolderNode) e = b.getNewRowElem("folder", a.id, "/images/folder.png", a.label, "Folder", {}, a.collapsed);
     else throw Error("Unknown node type");
@@ -772,6 +772,41 @@ function onPageRowClick(b) {
 						focused: !0
 					})
 				});
+			}else{
+			chrome.tabs.query({discarded: !0},(tabs)=>{
+				let tus=tabs.filter(t=>{return getUrl(t)===c[0].attributes.url.value;});
+				if(tus.length>0){
+					let d=getChromeId(c);
+					let el_id=-1;
+					let diff=-1;
+					for(let i=tus.length-1; i>=0; i--){
+						let df=Math.abs(parseInt(d)-parseInt(tus[i].id));
+						if(diff===-1 || df<diff){
+							diff=df;
+							el_id=tus[i].id;
+						}
+					}
+					c[0].attributes.chromeId.value=el_id;
+
+					chrome.tabs.reload(el_id,()=>{
+						chrome.tabs.update(el_id,{active: !0},(tab)=>{
+								c[0].attributes.chromeId.value=tab.id;
+												chrome.windows.get(tab.windowId, function(a) {
+													"minimized" ==
+													a.state && chrome.windows.update(a.id, {
+														state: "normal"
+													});
+													a.focused || chrome.windows.update(a.id, {
+														focused: !0
+													});
+													d && chrome.windows.update(bg.sidebarHandler.windowId, {
+														focused: !0
+													})
+												});
+						});
+					});
+				}
+			});
 			}
         });
         a.startTooltipTimer(c, b, 2E3)
@@ -934,7 +969,7 @@ function togglePageRowsHibernated(b, a, c) {
     0 <= a && 0 < d.length ? (a = d.map(function(a, b) {
         return $(b).attr("id")
     }), bg.tree.awakenPages(a, c || !1)) : 1 == a || 0 == b.length || (a = b.map(function(a, b) {
-        return parseInt($(b).attr("chromeid"))
+        return parseInt($(b).attr("chromeId"))
     }), bg.tree.hibernatePages(a))
 }
 
