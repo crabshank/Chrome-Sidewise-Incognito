@@ -257,20 +257,22 @@ function testNodeForFocus(a, c) {
 function onTabUpdated(a, c, b) {
 		let pgs=allPageNodes();
 		let nd=null;
+		var d=null;
 		let n_id=pgs.findIndex((p)=>{return p.chromeId===b.id;});
 		if(n_id>=0){
 				nd=pgs[n_id];
-			tree.updateNode(nd,c)
+				d=nd;
+			tree.updateNode(nd,c);
 		}else{
 			let n=tree.getNode(["chromeId", b.id]); if(typeof n!=='undefined'){
-				tree.updateNode(n,c)
+				d=n;
+				tree.updateNode(n,c);
 			}
 		}
 
     log(b, c, a);
     if (a != sidebarHandler.tabId && !monitorInfo.isDetecting()) {
-        var d = tree.getNode(["chromeId", a]);
-        if (d) {
+        if (d!==null) {
             "preload" == d.status && (log("Clearing checkPageStatuses"), TimeoutManager.clear("checkPageStatus1_" + a), TimeoutManager.clear("checkPageStatus2_" + a), TimeoutManager.clear("checkPageStatus3_" + a));
             var c = getUrl(b) ? dropUrlHash(getUrl(b)) : "",
                 a = getBestPageTitle(b.title, c),
@@ -286,7 +288,7 @@ function onTabUpdated(a, c, b) {
                 return a.isTab() && a.pinned
             }, c.topParent()) ? log("Denying move-to-child because doing so would put unpinned page before pinned one") : (log("Moving node which now has openerTabId to be NON ordered child of correct parent",
                 "moving", d.id, "append", c.id), tree.moveNodeRel(d, "append", c)), d.placed = !0) : console.error("Could not find correct parent by openerTabId " + b.openerTabId));
-            tree.updateNode(d, {
+           tree.updateNode(d, {
                 status: b.status,
                 url: getUrl(b),
                 favicon: e,
@@ -296,7 +298,7 @@ function onTabUpdated(a, c, b) {
                 mediaState: "unstarted",
                 mediaTime: 0
             });
-            getUrl(b).match(/^chrome-/) && setTimeout(function() {
+            getUrl(b).startsWith('chrome://') && setTimeout(function() {
                 chrome.tabs.get(b.id, function(a) {
                     tree.updatePage(b.id, {
                         title: getBestPageTitle(a.title)
