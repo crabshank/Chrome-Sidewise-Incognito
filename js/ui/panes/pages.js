@@ -8,6 +8,34 @@ $(document).ready(function() {
     $(document).on("keydown", "body", onBodyKeyDown)
 });
 
+function removeNodePrint(n){
+		function getAllPageNodes(n){
+			var allNodes=[];
+			try{
+				allNodes.push(...n.children);
+				let c=0;
+				while (c<allNodes.length){
+					if(typeof allNodes[c]!=='undefined'){
+						let h=allNodes[c].children;
+						allNodes.push(...h);
+					}
+					c++;
+				}
+				return Array.from(new Set(allNodes)).filter((n)=>{return (n instanceof PageNode);});
+			}catch(e){return allNodes;}
+		}
+		
+	let p=getAllPageNodes(n);
+	if(p.length>0){
+		console.group('Window removed: ');
+		for(let i=0, len=p.length; i<len; i++){
+			console.log('Removed: '+p[i].url);
+		}
+		console.groupEnd();
+	}
+	
+}
+
 function onBodyKeyDown(b) {
     console.log(b.ctrlKey, b.keyCode);
     if (b.ctrlKey && (87 == b.keyCode || 115 == b.keyCode)) return bg.tree.focusedTabId && chrome.tabs.remove(bg.tree.focusedTabId), !1
@@ -916,7 +944,7 @@ function closeWindowRow(b) {
         var a = b.attr("id"),
             d = getChromeId(b),
             a = bg.tree.getNode(a);
-        "true" == b.attr("hibernated") || !d ? bg.tree.removeNode(a, !0) : chrome.windows.get(d, function(a) {
+        "true" == b.attr("hibernated") || !d ? ( removeNodePrint(a), bg.tree.removeNode(a, !0) ) : chrome.windows.get(d, function(a) {
             a && (b.find(".ftRowNode[rowtype=page][hibernated=false]").each(function(a, b) {
                     closeRow($(b))
                 }),
