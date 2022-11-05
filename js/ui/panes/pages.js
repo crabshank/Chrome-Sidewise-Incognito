@@ -159,8 +159,7 @@ function addPageTreeNodeToFancyTree(b, a, c, d) {
         restorable: a.restorable,
         highlighted: a.highlighted,
         incognito: a.incognito,
-        chromeId: a.chromeId,
-        discarded: a.discarded,
+        chromeId: a.chromeId
     }, a.collapsed);
     else if (a instanceof bg.FolderNode) e = b.getNewRowElem("folder", a.id, "/images/folder.png", a.label, "Folder", {}, a.collapsed);
     else throw Error("Unknown node type");
