@@ -223,6 +223,11 @@ img.ftIconButton.ftButton__page_close {
     background-color: #3c3c3c;
 }
 
+.ftRowNode[rowtype=page][hibernated=false][discarded=true] > .ftItemRow > .ftItemRowContent {
+    border: 1px dotted #ffffff;
+    background: black;
+}
+
 .ftFocused > .ftItemRow > .ftItemRowContent,
 .ftSelected > .ftItemRow > .ftItemRowContent {
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000ba),color-stop(1, #1f69ca));
