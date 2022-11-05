@@ -228,6 +228,11 @@ img.ftIconButton.ftButton__page_close {
     background: black;
 }
 
+.ftFocused[hibernated=false][discarded=true] > .ftItemRow > .ftItemRowContent, .ftSelected[hibernated=false][discarded=true] > .ftItemRow > .ftItemRowContent {
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(0 0 0 / 73%)),color-stop(1, hsl(214deg 73% 20%))) !important;
+	border: 1px solid #2e89ffc2 !important;
+}
+
 .ftFocused > .ftItemRow > .ftItemRowContent,
 .ftSelected > .ftItemRow > .ftItemRowContent {
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000000ba),color-stop(1, #1f69ca));
