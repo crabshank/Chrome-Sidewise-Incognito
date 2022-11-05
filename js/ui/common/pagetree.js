@@ -22,7 +22,8 @@ var PAGETREE_FANCYTREE_UPDATE_DETAILS_MAP = {
     highlighted: 'highlighted',
     mediaState: 'media-state',
     mediaTime: 'media-time',
-    chromeId: 'chromeid'
+    chromeId: 'chromeid',
+    discarded: 'discarded',
 };
 
 // wait this long before accessing chrome://favicon cache to obtain
