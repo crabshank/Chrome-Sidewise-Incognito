@@ -235,7 +235,7 @@ function onRowExpanderClick(b) {
 
 function onRowsMoved(b) {
     log(b);
-    for (var a = {}, c = 0, d, e = !1, f = 0; f < b.length; f++) {
+    for (var a = {}, c = 0, d, /*e = !1,*/ h=false, f = 0; f < b.length; f++) {
         var h = b[f],
             g = h.$row,
             i = h.$to,
@@ -246,24 +246,52 @@ function onRowsMoved(b) {
         g.hasClass("ftCollapsed") && (log("check collapse-hidden descendants for win to win moves"), g = g.add(g.find(".ftRowNode")));
         g.each(function(b, f) {
             var m = $(f);
-            if (m.attr("rowtype") == "page" && m.attr("hibernated") != "true") {
-                d = i.parents(".ftRowNode").last();
-                d.length == 0 && (d = i);
-                var g = h.$oldAncestors.last();
-                if (d.attr("rowtype") == "window" && !d.is(g)) {
-                    var m = getChromeId(m),
-                        g = getChromeId(g),
-                        j = bg.tree.getNode(k);
-                    d.attr("hibernated") == "false" ? j.windowId = getChromeId(d) : e = true;
-                    if (a[g] === void 0) {
-                        a[g] = [];
-                        c++
-                    }
-                    a[g].push({
-                        node: j,
-                        movingTabId: m
-                    })
-                }
+            if (m.attr("rowtype") == "page") {
+				
+					d = i.parents(".ftRowNode").last();
+					d.length == 0 && (d = i);
+					var g = h.$oldAncestors.last();
+					let dw=(d.attr("rowtype") == "window")?true:false;
+					
+				if(m.attr("hibernated") != "true"){ //page not hibernated
+
+					if ( dw && !d.is(g)) { // non-hibernated page's window found
+						var m = getChromeId(m),
+							g = getChromeId(g),
+							j = bg.tree.getNode(k);
+
+							if(d.attr("hibernated") == "false"){ //window not hibernated
+								j.windowId = getChromeId(d);
+							}else{
+								onContextMenuItemHibernatePages($(f));
+								onContextMenuItemHibernateWindow(d);
+								h=true;
+							}
+
+								if(typeof h.$oldAncestors !=='undefined'){
+									let wn=bg.tree.getNode(h.$oldAncestors.attr('id'));
+									wn && (0 < wn.children.length ? bg.tree.updateNode(wn, {
+									hibernated: !0,
+									restorable: !1,
+									title: getMessage("text_hibernatedWindow"),
+									chromeId: null
+									}) : bg.tree.removeNode(wn));
+								}else{
+									console.groupCollapsed('Dragged from window node not found: ')
+									console.error(h);
+									console.groupEnd();
+								}
+
+						if (a[g] === void 0) {
+							a[g] = [];
+							c++
+						}
+						a[g].push({
+							node: j,
+							movingTabId: m
+						})
+					}
+				}
             }
         })
     }
@@ -273,9 +301,9 @@ function onRowsMoved(b) {
             n = function(b) {
                 var d = 0,
                     f;
-                for (f in a) a.hasOwnProperty(f) && (d++, d == c ? moveTabsBetweenWindows(parseInt(f), j, a[f], b) : moveTabsBetweenWindows(parseInt(f), j, a[f], void 0))
+                for (f in a) a.hasOwnProperty(f) && (d++, d == c ? moveTabsBetweenWindows(parseInt(f), j, a[f], b,h) : moveTabsBetweenWindows(parseInt(f), j, a[f], void 0,h))
             };
-        e ? (b =
+       /* e ? (b =
             bg.sidebarHandler.getIdealNewWindowMetrics(), b.url = "about:blank", b.type = "normal", chrome.windows.create(b, function(a) {
                 chrome.windows.update(a.id, bg.sidebarHandler.getIdealNewWindowMetrics());
                 chrome.tabs.query({
@@ -293,8 +321,30 @@ function onRowsMoved(b) {
                         chrome.tabs.remove(c)
                     })
                 })
-            })) : n()
+            })) :*/ 
+			n();
     } else bg.tree.conformAllChromeTabIndexes(!0)
+}
+
+function moveBetweenNewWindowBody(a,e,d,c/*,b*/){
+	            var f = function() {
+					/*if(typeof b!=='undefined'){
+						chrome.tabs.remove(b.id);
+					}*/
+                    setTimeout(function() {
+                        bg.tree.rebuildPageNodeWindowIds(function() {
+                            bg.tree.conformAllChromeTabIndexes(!0);
+                            d && d()
+                        })
+                    }, 500)
+                },
+                e;
+            for (e in c) {
+                var h = c[e],
+                    g = bg.tree.getTabIndex(h.node) || 0;
+                log("win to win move + last-tab hack", "moving", h.node.id, "to", a, "index", g);
+                moveTabToWindow(h.movingTabId, a, g, e == c.length - 1 ? f : void 0)
+            }
 }
 
 function moveTabsBetweenWindows(b, a, c, d) {
@@ -317,30 +367,12 @@ function moveTabsBetweenWindows(b, a, c, d) {
                 var g = c[h],
                     i = bg.tree.getTabIndex(g.node) || 0;
                 log("win to win move", "moving", g.node.id, "to", a, "index", i);
-                moveTabToWindow(g.movingTabId, a, i, h == c.length - 1 ? f : void 0)
+               moveTabToWindow(g.movingTabId, a, i, h == c.length - 1 ? f : void 0)
             }
-        } else chrome.tabs.create({
-            url: "about:blank",
-            windowId: b
-        }, function(b) {
-            var f = function() {
-                    chrome.tabs.remove(b.id);
-                    setTimeout(function() {
-                        bg.tree.rebuildPageNodeWindowIds(function() {
-                            bg.tree.conformAllChromeTabIndexes(!0);
-                            d && d()
-                        })
-                    }, 500)
-                },
-                e;
-            for (e in c) {
-                var h = c[e],
-                    g = bg.tree.getTabIndex(h.node) || 0;
-                log("win to win move + last-tab hack", "moving", h.node.id, "to", a, "index", g);
-                moveTabToWindow(h.movingTabId, a, g, e == c.length - 1 ? f : void 0)
-            }
-        })
-    })
+        } else{
+			moveBetweenNewWindowBody(a,e,d,c);
+	}
+    });
 }
 
 function moveTabToWindow(b, a, c, d) {
@@ -638,11 +670,11 @@ function onContextMenuItemCloseBranches(b) {
 }
 
 function onContextMenuItemWakeWindow(b) {
-    bg.tree.awakenWindow(b.first().attr("id"))
+	bg.tree.awakenWindow(b.first().attr("id"));
 }
 
 function onContextMenuItemHibernateWindow(b) {
-    bg.tree.hibernateWindow(b.first().attr("id"))
+	bg.tree.hibernateWindow(b.first().attr("id"));
 }
 
 function onContextMenuItemHibernatePages(b) {
