@@ -23,7 +23,7 @@ MonitorInfo.prototype = {
 	},
 	retrieveMonitorMetrics: function(a) {
 		var b = this;
-		alert(getMessage("prompt_DetectMonitors"));
+		alert('Click on the browser action icon (next to the omnibar) to display window');
 		log("Detecting multiple monitors");
 		this.detectingMonitors = !0;
 		this.detectAllMonitorMetrics(function(d, c) {
