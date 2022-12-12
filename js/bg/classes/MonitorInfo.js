@@ -3,7 +3,7 @@ var MonitorInfo = function() {
 	this.monitors = settings.get("monitorMetrics") || [];
 	this.maximizedOffset = settings.get("maximizedOffset") || 0;
 	this.detectOnComplete = null;
-	this.detectingMonitors = !1;
+	//this.detectingMonitors = !1;
 	this.detectionDOMWindow = this.lastDetectionWindowId = null
 };
 MonitorInfo.prototype = {
@@ -23,11 +23,11 @@ MonitorInfo.prototype = {
 	},
 	retrieveMonitorMetrics: function(a) {
 		var b = this;
-		alert('Click on the browser action icon (next to the omnibar) to display window');
+		//alert(getMessage("prompt_DetectMonitors"));
 		log("Detecting multiple monitors");
-		this.detectingMonitors = !0;
+		//this.detectingMonitors = !0;
 		this.detectAllMonitorMetrics(function(d, c) {
-			b.detectingMonitors = !1;
+			//b.detectingMonitors = !1;
 			a(d, c)
 		})
 	},
@@ -95,7 +95,7 @@ MonitorInfo.prototype = {
 	},
 	createDetectionWindow: function(a, b, d) {
 		var c = this;
-		this.detectingMonitors = !0;
+		//this.detectingMonitors = !0;
 		chrome.windows.create({
 			url: "/detect-monitor.html",
 			type: "popup",
@@ -119,6 +119,8 @@ MonitorInfo.prototype = {
 					d(e)
 				}, 200)
 			})
+		}else{
+			sidebarHandler.createWithDockState(settings.get("dockState"));
 		}
 		})
 	},
@@ -127,7 +129,7 @@ MonitorInfo.prototype = {
 			this;
 		chrome.windows.remove(this.lastDetectionWindowId, function() {
 			b.detectionDOMWindow = null;
-			b.detectingMonitors = !1;
+			//b.detectingMonitors = !1;
 			a()
 		})
 	},
