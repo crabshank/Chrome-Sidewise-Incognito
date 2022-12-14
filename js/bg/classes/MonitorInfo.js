@@ -5,6 +5,7 @@ var MonitorInfo = function() {
 	this.detectOnComplete = null;
 	//this.detectingMonitors = !1;
 	this.detectionDOMWindow = this.lastDetectionWindowId = null
+	this.cdw = {c:0, u:0};
 };
 MonitorInfo.prototype = {
 	isKnown: function() {
@@ -95,6 +96,7 @@ MonitorInfo.prototype = {
 	},
 	createDetectionWindow: function(a, b, d) {
 		var c = this;
+		c.cdw.c+=1;
 		//this.detectingMonitors = !0;
 		chrome.windows.create({
 			url: "/detect-monitor.html",
@@ -120,6 +122,9 @@ MonitorInfo.prototype = {
 				}, 200)
 			})
 		}else{
+			c.cdw.u+=1;
+		}
+		if(c.cdw.c>=2 && c.cdw.u>0){
 			sidebarHandler.createWithDockState(settings.get("dockState"));
 		}
 		})
