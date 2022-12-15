@@ -275,7 +275,7 @@ function onRowsMoved(b) {
 								h=true;
 							}
 
-								if(typeof h.$oldAncestors !=='undefined'){
+								/*if(typeof h.$oldAncestors !=='undefined'){
 									let wn=bg.tree.getNode(h.$oldAncestors.attr('id'));
 									wn && (0 < wn.children.length ? bg.tree.updateNode(wn, {
 									hibernated: !0,
@@ -287,7 +287,7 @@ function onRowsMoved(b) {
 									console.groupCollapsed('Dragged from window node not found: ')
 									console.error(h);
 									console.groupEnd();
-								}
+								}*/
 
 						if (a[g] === void 0) {
 							a[g] = [];
