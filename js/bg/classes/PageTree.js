@@ -329,16 +329,16 @@ PageTree.prototype = {
 				d.awt=[0,aal];
             for(let ak=0; ak<aal; ak++){
 				a=aa[ak];
+				let pv,fl=0;
                 var c, e, f = a.following(function(b) {
-                    return b.isTab() && b.windowId == a.windowId
+                    return b.isTab() && (b.windowId == a.windowId || b.windowId==i)
                 });
                 if (f) log("looking up tab index for next tab", f.id), c = d.getTabIndex(f);
                 else if (e = a.preceding(function(b) {
-                        return b.isTab() && b.windowId == a.windowId
+                       return b.isTab() && (b.windowId == a.windowId || b.windowId==i)
                     })) log("looking up tab index for preceding tab",
-                    e.id), c = d.getTabIndex(e), void 0 !== c && (c += 1);
-                void 0 === c && (f ? (log("fallback on next.index", f.id, f.index), c = f.index) : e && (log("fallback on prev.index", e.id, e.index), c = e.index + 1), void 0 === c && (c = 99999));
-                log("awakening", getUrl(a), "windowId", i, "index", c);
+                    e.id), c = d.getTabIndex(e);
+					c=(typeof e==='undefined' && typeof f==='undefined')?0:c;
                 chrome.tabs.create({
                     url: getUrl(a),
                     windowId: i,
