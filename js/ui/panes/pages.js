@@ -515,28 +515,28 @@ function onContextMenuShow(b) {
         $rows: c,
         id: "awakenPage",
         icon: "/images/wake.png",
-        label: "Wake tab",
+        label: `Wake tab${(d>1) ? 's' : ''}`,
         callback: onContextMenuItemWakePages
     });    
 	d && a.push({
         $rows: c,
         id: "awakenPageHib",
         icon: "/images/wake.png",
-        label: "Wake tab + discard",
+        label: `Wake tab${(d>1) ? 's' : ''} + discard`,
         callback: onContextMenuItemWakePagesDisc
     });
     e && a.push({
         $rows: c,
         id: "hibernatePage",
         icon: "/images/hibernate.png",
-        label: "Hibernate tab",
+        label: `Hibernate tab${(e>1) ? 's' : ''}`,
         callback: onContextMenuItemHibernatePages
     });    
 	ed && a.push({
         $rows: c,
         id: "discardPage",
         icon: "/images/hibernate.png",
-        label: "Discard tab",
+        label: `Discard tab${(ed>1) ? 's' : ''}`,
         callback: onContextMenuItemDiscardPages
     });
     i && i != d && a.push({
@@ -585,7 +585,7 @@ function onContextMenuShow(b) {
         $rows: c,
         id: "pinPage",
         icon: "/images/pinned.png",
-        label: "Pin tab",
+        label: `Pin tab${(o>1) ? 's' : ''}`,
         callback: onContextMenuItemPinPages,
         preserveSelectionAfter: !0
     });
@@ -593,7 +593,7 @@ function onContextMenuShow(b) {
         $rows: c,
         id: "unpinPage",
         icon: "/images/unpin.png",
-        label: "Unpin tab",
+        label: `Unpin tab${(n>1) ? 's' : ''}`,
         callback: onContextMenuItemUnpinPages,
         preserveSelectionAfter: !0
     });
@@ -601,7 +601,7 @@ function onContextMenuShow(b) {
         $rows: b,
         id: "copyUrl",
         icon: "/images/copy_url.png",
-        label: "Copy URL",
+        label: `Copy URL${(c.length>1) ? 's' : ''}`,
         callback: onContextMenuItemCopyURL,
         preserveSelectionAfter: !0
     });
@@ -609,7 +609,7 @@ function onContextMenuShow(b) {
         $rows: b,
         id: "copyId",
         icon: "/images/copy_url.png",
-        label: "Copy ID",
+        label: `Copy ID${(b.length>1) ? 's' : ''}`,
         callback: onContextMenuItemCopyId,
         preserveSelectionAfter: !0
     });
@@ -631,7 +631,7 @@ function onContextMenuShow(b) {
         $rows: b,
         id: "reloadPage",
         icon: "/images/reload.png",
-        label: "Reload tab",
+        label: `Reload tab${(e>1) ? 's' : ''}`,
         callback: onContextMenuItemReload,
         preserveSelectionAfter: !0
     });
@@ -639,13 +639,13 @@ function onContextMenuShow(b) {
         $rows: b,
         id: "closePage",
         icon: "/images/close.png",
-        label: "Close tab",
+        label: `Close tab${(c.length>1) ? 's' : ''}`,
         callback: onContextMenuItemClosePages
     }) : a.push({
         $rows: b,
         id: "closeFolder",
         icon: "/images/close_branch.png",
-        label: "Remove folder",
+        label: `Remove folder${(b.length>1) ? 's' : ''}`,
         callback: onContextMenuItemCloseBranches
     });
     (b.length != h.length || 0 < f.length) && a.push({
