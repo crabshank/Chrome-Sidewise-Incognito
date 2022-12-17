@@ -2,6 +2,7 @@
 var TAB_REMOVE_SAVE_TREE_DELAY_MS = 3E3,
     SMART_FOCUS_DISABLE_FOR_TABS_CREATED_IN_LAST_MS = 8E3,
     expectingSmartFocusTabId = null,
+	disc_tabs=[],
     expectingTabMoves = [];
 
 function registerTabEvents() {
@@ -33,6 +34,10 @@ function allPageNodes(){
 }
 
 function replaceTabs(r,a){
+	let ix=disc_tabs.findIndex((t)=>{return t.id===r;}); if(ix>=0){
+		disc_tabs[ix].id=a;
+	}
+	
 let pgs=allPageNodes();
 
 let n_id=pgs.findIndex((p)=>{return p.chromeId===r;});
@@ -254,7 +259,25 @@ function testNodeForFocus(a, c) {
         }
 }
 
+async function tabs_discard(d){
+	return new Promise(function(resolve) {
+				chrome.tabs.discard(d, function(tab){
+						tree.updatePage(["chromeId", d], {
+							discarded: true
+						});
+						resolve();
+				});
+	});
+}
+
 function onTabUpdated(a, c, b) {
+		if(c.url){
+			let ix=disc_tabs.findIndex((t)=>{return t.id===a;}); if(ix>=0){
+				(async ()=>{ await tabs_discard(a); })();
+				disc_tabs=disc_tabs.filter((t)=>{return t.id!==a;});
+			}
+		}
+		
 		let pgs=allPageNodes();
 		let nd=null;
 		var d=null;
