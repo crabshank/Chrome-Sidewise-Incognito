@@ -492,8 +492,13 @@ function onContextMenuShow(b) {
         d = c.filter(function(a,
             b) {
             return "true" == $(b).attr("hibernated")
+        }).length, 
+		dd = c.filter(function(a,
+            b) {
+            return "true" == $(b).attr("discarded")
         }).length,
         e = c.length - d,
+        ed = c.length - dd,
         i = g.filter(function(a, b) {
             return "true" == $(b).attr("hibernated")
         }).length,
@@ -512,6 +517,13 @@ function onContextMenuShow(b) {
         icon: "/images/wake.png",
         label: "Wake tab",
         callback: onContextMenuItemWakePages
+    });    
+	d && a.push({
+        $rows: c,
+        id: "awakenPageHib",
+        icon: "/images/wake.png",
+        label: "Wake tab + discard",
+        callback: onContextMenuItemWakePagesDisc
     });
     e && a.push({
         $rows: c,
@@ -519,6 +531,13 @@ function onContextMenuShow(b) {
         icon: "/images/hibernate.png",
         label: "Hibernate tab",
         callback: onContextMenuItemHibernatePages
+    });    
+	ed && a.push({
+        $rows: c,
+        id: "discardPage",
+        icon: "/images/hibernate.png",
+        label: "Discard tab",
+        callback: onContextMenuItemDiscardPages
     });
     i && i != d && a.push({
         $rows: g,
@@ -688,8 +707,16 @@ function onContextMenuItemHibernatePages(b) {
     togglePageRowsHibernated(b, -1)
 }
 
+function onContextMenuItemDiscardPages(b) {
+    togglePageRowsHibernated(b, -2)
+}
+
 function onContextMenuItemWakePages(b) {
     togglePageRowsHibernated(b, 1)
+}
+
+function onContextMenuItemWakePagesDisc(b) {
+    togglePageRowsHibernated(b, 2)
 }
 
 function onContextMenuItemReload(b) {
@@ -993,6 +1020,8 @@ function closeWindowRow(b) {
 }
 
 function togglePageRowsHibernated(b, a, c) {
+	var h=(a===2)?true:false;
+	var dsc=(a===-2)?true:false;
     var d = b.filter(function(a, b) {
             return "true" == $(b).attr("hibernated")
         }),
@@ -1000,9 +1029,9 @@ function togglePageRowsHibernated(b, a, c) {
         a = a || 0;
     0 <= a && 0 < d.length ? (a = d.map(function(a, b) {
         return $(b).attr("id")
-    }), bg.tree.awakenPages(a, c || !1)) : 1 == a || 0 == b.length || (a = b.map(function(a, b) {
+    }), bg.tree.awakenPages(a, c || !1,h)) : 1 == a || 0 == b.length || (a = b.map(function(a, b) {
         return parseInt($(b).attr("chromeId"))
-    }), bg.tree.hibernatePages(a))
+    }), bg.tree.discHibPg(a,dsc))
 }
 
 function setPageRowPinnedState(b, a) {
