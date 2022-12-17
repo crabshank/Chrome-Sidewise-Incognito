@@ -181,12 +181,26 @@ PageTree.prototype = {
         this.updateNode(b, c);
         return b
     },
-    hibernatePages: function(a,
+	discHibPg: function(a,dsc) {
+		if(dsc===true){
+			this.discardPages(a);
+		}else{
+			this.hibernatePages(a);
+		}
+    },
+	discardPages: function(a) {
+        log(a);
+        for (var b = a.length - 1; 0 <= b; b--) this.discardPage(a[b])
+    },
+	hibernatePages: function(a,
         c) {
         log(a);
         for (var b = a.length - 1; 0 <= b; b--) this.hibernatePage(a[b], c)
     },
-    hibernatePage: function(a, c) {
+    discardPage: function(a) { 
+		(async ()=>{ await tabs_discard(a); })();
+	},	
+	hibernatePage: function(a, c) {
         function b() {
             chrome.tabs.remove(a);
             tree.removeFromTabIndex(d);
@@ -216,7 +230,7 @@ PageTree.prototype = {
             }) : b()
         })
     },
-    awakenPages: function(a, c) {
+    awakenPages: function(a, c, hb) {
         log(a);
         for (var b = {}, d = 0, e = a.length - 1; 0 <= e; e--) {
             var g = this.getNodeEx(a[e]),
@@ -231,7 +245,7 @@ PageTree.prototype = {
         var e = 0,
             h;
         for (h in b) b.hasOwnProperty(h) && (this.awakenPageNodes(b[h].pageNodes, b[h].windowNode,
-            0 == e ? c : !1), e++);
+            0 == e ? c : !1,hb), e++);
         this.updateLastModified()
     },
     awakenWindow: function(a, c) {
@@ -271,8 +285,11 @@ PageTree.prototype = {
         });
         this.updateLastModified()
     },
-    awakenPageNodes: function(a, c, b) {
-        var d = this,
+    awakenPageNodes: function(a, c, b,hb) {
+        var d = this;
+		if(typeof hb!=='undefined'){
+			d.hb=hb;
+		}
             e = a.map(function(a) {
                 return getUrl(a)
             });
@@ -306,8 +323,12 @@ PageTree.prototype = {
             })
         } else {
             var d = this,
+					aa=a,
+					aal=aa.length,
                 i = c.chromeId;
-            a.forEach(function(a) {
+				d.awt=[0,aal];
+            for(let ak=0; ak<aal; ak++){
+				a=aa[ak];
                 var c, e, f = a.following(function(b) {
                     return b.isTab() && b.windowId == a.windowId
                 });
@@ -324,10 +345,21 @@ PageTree.prototype = {
                     active: b || !1,
                     pinned: a.pinned,
                     index: c
-                }, function() {
+                }, function(tb) {
+					d.awt[0]+=1;
+					let le=(d.awt[0]===d.awt[1])?true:false;
+					if(le){
+						delete d.awt;
+					}
+					if(typeof d.hb!=='undefined' && d.hb===true){
+						disc_tabs.push({id: tb.id});
+						if(le){
+							delete d.hb;
+						}
+					}
                     rectifyAssociations(1E3)
                 })
-            })
+			}
         }
     },
     setWindowToAwake: function(a, c) {
