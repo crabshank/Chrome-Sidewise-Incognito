@@ -330,15 +330,25 @@ PageTree.prototype = {
             for(let ak=0; ak<aal; ak++){
 				a=aa[ak];
 				let pv,fl=0;
-                var c, e, f = a.following(function(b) {
+                var c, f = a.following(function(b) {
                     return b.isTab() && (b.windowId == a.windowId || b.windowId==i)
                 });
-                if (f) log("looking up tab index for next tab", f.id), c = d.getTabIndex(f);
-                else if (e = a.preceding(function(b) {
+                var e = a.preceding(function(b) {
                        return b.isTab() && (b.windowId == a.windowId || b.windowId==i)
-                    })) log("looking up tab index for preceding tab",
-                    e.id), c = d.getTabIndex(e);
-					c=(typeof e==='undefined' && typeof f==='undefined')?0:c;
+                    });
+					let eud=(typeof e==='undefined')?true:false;
+					let fud=(typeof f==='undefined')?true:false;
+					if(eud && fud){
+						c=0;
+					}else{
+						let ex=(eud)?null:d.getTabIndex(e);
+						let fx=(fud)?null:d.getTabIndex(f);
+						if( !eud ){
+							c=ex+1;
+						}else{//!fud
+							c=(fx<=0)?0:fx-1;
+						}
+					}
                 chrome.tabs.create({
                     url: getUrl(a),
                     windowId: i,
