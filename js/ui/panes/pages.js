@@ -723,7 +723,7 @@ function onContextMenuItemReload(b) {
     b.each(function(a, b) {
         var d = $(b);
         "page" != d.attr("rowtype") || "true" == d.attr("hibernated") || (d = getChromeId(d), chrome.tabs.executeScript(d, {
-            code: "window.location.reload();"
+            code: "window.location.reload(true);"
         }))
     })
 }
