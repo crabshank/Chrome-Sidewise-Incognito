@@ -12,12 +12,18 @@ function removeNodePrint(n){
 		function getAllPageNodes(n){
 			var allNodes=[];
 			try{
-				allNodes.push(...n.children);
+				let nc=n.children;
+				for(let i=0, len=nc.length; i<len; i++){
+					allNodes.push(nc[i]);
+				}
+				
 				let c=0;
 				while (c<allNodes.length){
 					if(typeof allNodes[c]!=='undefined'){
 						let h=allNodes[c].children;
-						allNodes.push(...h);
+						for(let i=0, len=h.length; i<len; i++){
+							allNodes.push(h[i]);
+						}
 					}
 					c++;
 				}
