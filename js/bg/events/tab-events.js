@@ -20,12 +20,17 @@ function registerTabEvents() {
 function allPageNodes(){
 	var allNodes=[];
 	try{
-		allNodes.push(...tree.root.children);
+		let trc=tree.root.children;
+		for(let i=0, len=trc.length; i<len; i++){
+					allNodes.push(trc[i]);
+		}
 		let c=0;
 		while (c<allNodes.length){
 			if(typeof allNodes[c]!=='undefined'){
 				let h=allNodes[c].children;
-				allNodes.push(...h);
+				for(let i=0, len=h.length; i<len; i++){
+					allNodes.push(h[i]);
+				}
 			}
 			c++;
 		}
