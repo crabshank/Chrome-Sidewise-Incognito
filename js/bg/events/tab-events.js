@@ -287,6 +287,7 @@ function onTabUpdated(a, c, b) {
 		let nd=null;
 		var d=null;
 		let n_id=pgs.findIndex((p)=>{return p.chromeId===b.id;});
+		c.discarded=b.discarded;
 		if(n_id>=0){
 				nd=pgs[n_id];
 				d=nd;
