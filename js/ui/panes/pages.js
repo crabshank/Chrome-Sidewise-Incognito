@@ -558,6 +558,13 @@ function onContextMenuShow(b) {
         icon: "/images/hibernate_branch.png",
         label: "Hibernate branch",
         callback: onContextMenuItemHibernatePages
+    });    
+	k && k != e && a.push({
+        $rows: g,
+        id: "discardBranch",
+        icon: "/images/hibernate_branch.png",
+        label: "Discard branch",
+        callback: onContextMenuItemDiscardPages
     });
     (e || d) && a.push({
         separator: !0
