@@ -188,12 +188,12 @@ function onPageRowFormatTitle(row, itemTextElem) {
         }
     }
 
-    if (row.hasClass('ftCollapsed')) {
+    //if (row.hasClass('ftCollapsed')) {
         var childCount = row.children('.ftChildren').find('.ftRowNode').length;
         if (childCount > 0) {
             textAffix += (textAffix == '' ? '' : ' ') + '(' + childCount + ')';
         }
-    }
+    //}
 
     if (loggingEnabled) {
         label = row.attr('id').slice(0, 4) + (label ? ': ' : '') + label;
