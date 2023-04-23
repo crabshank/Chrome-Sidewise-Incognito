@@ -466,6 +466,16 @@ function onContextMenuShow(b) {
         });
         (e || d) && a.push({
             separator: !0
+        }); 
+		e && a.push({
+            $rows: c,
+            id: "discardWindow",
+            icon: "/images/hibernate_branch.png",
+            label: "Discard tabs in window",
+            callback: onContextMenuItemDiscardWindow
+        });
+        (e || d) && a.push({
+            separator: !0
         });
         a.push({
             $rows: c,
@@ -714,6 +724,10 @@ function onContextMenuItemWakeWindow(b) {
 
 function onContextMenuItemHibernateWindow(b) {
 	bg.tree.hibernateWindow(b.first().attr("id"));
+}
+
+function onContextMenuItemDiscardWindow(b) {
+	bg.tree.discardWindow(b.first().attr("id"));
 }
 
 function onContextMenuItemHibernatePages(b) {
