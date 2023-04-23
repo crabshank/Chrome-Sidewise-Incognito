@@ -248,13 +248,13 @@ PageTree.prototype = {
             0 == e ? c : !1,hb), e++);
         this.updateLastModified()
     },
-    awakenWindow: function(a, c) {
+    awakenWindow: function(a, c,hb) {
         log(a);
         var b = this.getNode(a),
             d = this.filter(function(a) {
                 return !(a instanceof PageNode && a.hibernated) ? !1 : c ? c(a) : !0
-            }, b.children).reverse();
-        this.awakenPageNodes(d, b);
+            }, b.children)
+        this.awakenPageNodes(d, b,null,hb);
         this.updateLastModified()
     },
     hibernateWindow: function(a) {
@@ -330,7 +330,13 @@ PageTree.prototype = {
                 d.setWindowToAwake(c, a.id);
                 d.expandNode(c);
                 rectifyAssociations(1E3)
-            })
+				if(hb===true){
+					let at=a.tabs;
+					for(let j=0, len=at.length; j<len; j++){
+						disc_tabs.push({id: at[j].id});
+					}
+				}
+            });
         } else {
             var d = this,
 					aa=a,
@@ -627,4 +633,3 @@ PageTree.prototype = {
     }
 };
 extendClass(PageTree, DataTree, PageTree.prototype);
-
