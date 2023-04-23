@@ -284,6 +284,16 @@ PageTree.prototype = {
             }) : c()
         });
         this.updateLastModified()
+    },    
+	discardWindow: function(a) {
+		let n=this.getNode(a),
+		b = this.filter(function(el) {
+			return el instanceof PageNode && !el.discarded && !el.hibernated && typeof el.chromeId==='number'
+		}, n.children);
+       for (var i = 0, len=b.length; i < len; i++){
+		   this.discardPage(b[i].chromeId);
+	   }
+        this.updateLastModified()
     },
     awakenPageNodes: function(a, c, b,hb) {
         var d = this;
