@@ -456,6 +456,13 @@ function onContextMenuShow(b) {
             icon: "/images/wake_branch.png",
             label: "Wake tabs in window",
             callback: onContextMenuItemWakeWindow
+        });     
+		d && a.push({
+            $rows: c,
+            id: "awakenDiscardWindow",
+            icon: "/images/wake_branch.png",
+            label: "Wake + discard tabs in window",
+            callback: onContextMenuItemWakeDiscardWindow
         });
         e && a.push({
             $rows: c,
@@ -464,9 +471,6 @@ function onContextMenuShow(b) {
             label: "Hibernate tabs in window",
             callback: onContextMenuItemHibernateWindow
         });
-        (e || d) && a.push({
-            separator: !0
-        }); 
 		e && a.push({
             $rows: c,
             id: "discardWindow",
@@ -716,6 +720,10 @@ function onContextMenuItemCloseBranches(b) {
     0 < d && c >= d && !confirm("This action will close " + c + " child row(s). Proceed?") || b.add(a).reverse().each(function(a, b) {
         closeRow($(b))
     })
+}
+
+function onContextMenuItemWakeDiscardWindow(b) {
+	bg.tree.awakenWindow(b.first().attr("id"),null,true);
 }
 
 function onContextMenuItemWakeWindow(b) {
