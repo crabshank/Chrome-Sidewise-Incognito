@@ -192,22 +192,7 @@ function onPageRowFormatTitle(row, itemTextElem) {
         var childNds = row.children('.ftChildren').find('.ftRowNode');
 		var childCount=childNds.length
 		if (childCount > 0) {
-			let cn={};
-			cn.hibernated=0;
-			cn.discarded=0;
-			cn.other=0;
-			for(let k=0; k<childCount; k++){
-				let ck=childNds[k];
-				let cka=ck.attributes
-				if( (typeof cka.discarded!=='undefined' && cka.discarded.value==='true') || (typeof cka.status!=='undefined' && cka.status.value==='unloaded') ){
-					cn.discarded+=1;
-				}else if(typeof cka.hibernated!=='undefined' && cka.hibernated.value==='true'){
-					cn.hibernated+=1;
-				}else{
-					cn.other+=1;
-				}
-			}
-			let ct=`(${childCount} => ${cn.other}, ${cn.hibernated}, ${cn.discarded})`;
+			let ct=`(${childCount})`;
             textAffix += (textAffix == '' ? '' : ' ') + ct;
         }
     //}
