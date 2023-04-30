@@ -576,6 +576,9 @@ function onContextMenuShow(b) {
         label: "Wake branch",
         callback: onContextMenuItemWakePages
     });
+	k && k != e && a.push({
+            separator: !0
+    });
     k && k != e && a.push({
         $rows: g,
         id: "hibernateBranch",
