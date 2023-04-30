@@ -192,6 +192,11 @@ function onPageRowFormatTitle(row, itemTextElem) {
         var childNds = row.children('.ftChildren').find('.ftRowNode');
 		var childCount=childNds.length
 		if (childCount > 0) {
+			for(let k=0; k<childCount; k++){
+				let ck=childNds[k];
+				let ckt=ck.querySelector('.ftItemTextAffix');
+				ckt.innerText='['+(k+1)+']';
+			}
 			let ct=`(${childCount})`;
             textAffix += (textAffix == '' ? '' : ' ') + ct;
         }
@@ -211,14 +216,14 @@ function onPageRowFormatTitle(row, itemTextElem) {
     var itemTextAffix = row.children('.ftItemRow').find('.ftItemTextAffix');
     if (textAffix) {
         itemTextAffix.html(textAffix);
-        var buttonsShowing = row.children('.ftItemRow').find('.ftButtons').is(':visible');
+        /*var buttonsShowing = row.children('.ftItemRow').find('.ftButtons').is(':visible');
         if (!buttonsShowing) {
             itemTextAffix.show();
-        }
+        }*/
     }
-    else {
+    /*else {
         itemTextAffix.html('').hide();
-    }
+    }*/
 
     var existingPin = itemTextElem.parent().children('.pinned');
     if (row.attr('pinned') == 'true') {
