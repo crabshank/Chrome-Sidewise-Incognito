@@ -48,7 +48,6 @@ initSidebarPane();
 // instead, it should all be parameterized appropriately
 function initPageTree(dataTree, paneName, getFancyTreeFn) {
     ft = getFancyTreeFn('#treePlaceholder', '#filterBoxPlaceholder', dataTree);
-
     binder = new SidebarPaneFancyTreeBinder(ft, dataTree, bg);
     binder.bind();
 
@@ -168,6 +167,22 @@ function onFolderRowFormatTooltip(evt) {
     return getBigTooltipContent(label, icon, body);
 }
 
+function sameArray(a,b){
+	let al=a.length;
+	let bl=b.length;
+	if(al!=bl){
+		return false
+	}else{
+		for(let i=0, len=a.length; i<len; i++){
+			if(a[i]!==b[i]){
+				return false;
+			}
+		}
+		return true;
+	}
+}
+
+
 // ----------------------------------------------
 // Pages
 // ----------------------------------------------
@@ -188,19 +203,37 @@ function onPageRowFormatTitle(row, itemTextElem) {
         }
     }
 
-    //if (row.hasClass('ftCollapsed')) {
-        var childNds = row.children('.ftChildren').find('.ftRowNode');
-		var childCount=childNds.length
-		if (childCount > 0) {
-			let ct=`(${childCount})`;
-            textAffix += (textAffix == '' ? '' : ' ') + ct;
-			for(let k=0; k<childCount; k++){
-				let ck=childNds[k];
-				let ckt=ck.querySelector('.ftItemTextAffix');
-				ckt.innerText='['+(k+1)+']';
+			let allNodes=[...ft.root[0].querySelectorAll('.ftRowNode:not([rowtype=window])')];
+			let chn=[];
+			for(let k=allNodes.length-1; k>=0; k--){
+				let ak=allNodes[k];
+				let akc=[...ak.getElementsByClassName('ftChildren')];
+				let akcl=akc.length;
+				if(akcl>1){
+					let ck=akc[k];
+					let ckt=[...ak.querySelectorAll('.ftItemTextAffix')];
+					let cktl=ckt.length;
+					if(cktl>1){
+						let c0=ckt[0];
+						ckt[0].innerText='('+(cktl-1)+')';
+						chn.push(c0);
+						for(let j=1; j<cktl; j++){
+								let cj=ckt[j];
+								if(!chn.includes(cj)){
+									ckt[j].innerText='['+(j)+']';
+									chn.push(cj);
+								}
+						}
+					}else if(cktl==1){
+						let c0=ckt[0];
+						ckt[0].innerText='('+(cktl-1)+')';
+						chn.push(c0);
+					}
+				}else{
+					let afx=ak.querySelector('.ftItemTextAffix');
+					afx.innerText='';
+				}
 			}
-        }
-    //}
 
     if (loggingEnabled) {
         label = row.attr('id').slice(0, 4) + (label ? ': ' : '') + label;
