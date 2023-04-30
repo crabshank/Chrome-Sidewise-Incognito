@@ -816,13 +816,13 @@ function onPageRowFormatTitle(row, itemTextElem) {
     if (textAffix) {
         itemTextAffix.html(textAffix);
         var buttonsShowing = row.children('.ftItemRow').find('.ftButtons').is(':visible');
-        if (!buttonsShowing) {
+        /*if (!buttonsShowing) {
             itemTextAffix.show();
-        }
+        }*/
     }
-    else {
+    /*else {
         itemTextAffix.html('').hide();
-    }
+    }*/
 
     var existingPin = itemTextElem.parent().children('.pinned');
     if (row.attr('pinned') == 'true') {
