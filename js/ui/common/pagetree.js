@@ -192,13 +192,13 @@ function onPageRowFormatTitle(row, itemTextElem) {
         var childNds = row.children('.ftChildren').find('.ftRowNode');
 		var childCount=childNds.length
 		if (childCount > 0) {
+			let ct=`(${childCount})`;
+            textAffix += (textAffix == '' ? '' : ' ') + ct;
 			for(let k=0; k<childCount; k++){
 				let ck=childNds[k];
 				let ckt=ck.querySelector('.ftItemTextAffix');
 				ckt.innerText='['+(k+1)+']';
 			}
-			let ct=`(${childCount})`;
-            textAffix += (textAffix == '' ? '' : ' ') + ct;
         }
     //}
 
