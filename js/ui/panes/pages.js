@@ -559,7 +559,17 @@ function onContextMenuShow(b) {
         label: `Discard tab${(ed>1) ? 's' : ''}`,
         callback: onContextMenuItemDiscardPages
     });
-    i && i != d && a.push({
+	i && i != d && a.push({
+            separator: !0
+    });
+	i && i != d && a.push({
+        $rows: g,
+        id: "awakenDiscardBranch",
+        icon: "/images/wake_branch.png",
+        label: "Wake + discard branch",
+        callback: onContextMenuItemWakePagesDisc
+    });
+	i && i != d && a.push({
         $rows: g,
         id: "awakenBranch",
         icon: "/images/wake_branch.png",
