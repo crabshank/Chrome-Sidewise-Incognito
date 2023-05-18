@@ -464,6 +464,9 @@ function onContextMenuShow(b) {
             label: "Wake + discard tabs in window",
             callback: onContextMenuItemWakeDiscardWindow
         });
+		e && a.push({
+            separator: !0
+        });
         e && a.push({
             $rows: c,
             id: "hibernateWindow",
@@ -537,13 +540,16 @@ function onContextMenuShow(b) {
         icon: "/images/wake.png",
         label: `Wake tab${(d>1) ? 's' : ''}`,
         callback: onContextMenuItemWakePages
-    });    
+    }); 
 	d && a.push({
         $rows: c,
         id: "awakenPageHib",
         icon: "/images/wake.png",
         label: `Wake tab${(d>1) ? 's' : ''} + discard`,
         callback: onContextMenuItemWakePagesDisc
+    });
+	(e || ed) && a.push({
+            separator: !0
     });
     e && a.push({
         $rows: c,
