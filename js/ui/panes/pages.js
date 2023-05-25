@@ -548,7 +548,7 @@ function onContextMenuShow(b) {
         label: `Wake tab${(d>1) ? 's' : ''} + discard`,
         callback: onContextMenuItemWakePagesDisc
     });
-	(e || ed) && a.push({
+	d && a.push({
             separator: !0
     });
     e && a.push({
