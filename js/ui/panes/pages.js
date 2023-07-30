@@ -44,10 +44,22 @@ function removeNodePrint(n){
 
 function onBodyKeyDown(b) {
 	console.log(b.ctrlKey, b.keyCode);
+	
 	if(b.keyCode===46){
 		let k=$("ul.ftChildren > li.ftFocused, ul.ftChildren > li.ftSelected");
 		for (let i=0, len=k.length; i<len; i++){
 			onContextMenuItemClosePages($(k[i]));
+		}
+	}else if(b.keyCode===35){
+		let k=$("ul.ftChildren > li.ftFocused, ul.ftChildren > li.ftSelected");
+		if(b.shiftKey){
+			for (let i=0, len=k.length; i<len; i++){
+				onContextMenuItemHibernatePages($(k[i]));
+			}
+		}else{
+			for (let i=0, len=k.length; i<len; i++){
+				onContextMenuItemDiscardPages($(k[i]));
+			}
 		}
 	}else{
 		if (b.ctrlKey && (87 == b.keyCode || 115 == b.keyCode)) return bg.tree.focusedTabId && chrome.tabs.remove(bg.tree.focusedTabId), !1
