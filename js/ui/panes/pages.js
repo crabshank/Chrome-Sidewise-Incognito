@@ -476,7 +476,7 @@ function onContextMenuShow(b) {
             label: "Wake + discard tabs in window",
             callback: onContextMenuItemWakeDiscardWindow
         });
-		e && a.push({
+		d && e && a.push({
             separator: !0
         });
         e && a.push({
