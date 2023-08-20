@@ -191,20 +191,17 @@ function onPageRowFormatTitle(row, itemTextElem) {
     var label = row.attr('label');
     var text = row.attr('text');
 
-    var textAffix = '';
-
-    if (settings.get('pages_showMediaPlayTime')) {
-        var mediaState = row.attr('media-state');
-        if (mediaState == 'playing') {
-            var mediaTime = parseFloat(row.attr('media-time'));
-            if (mediaTime >= 0.1) {
-                textAffix = formatSecondsAsHMS(mediaTime);
-            }
-        }
-    }
-
+    //var textAffix = '';
+			
+			let itemTextAffix = row.children('.ftItemRow').find('.ftItemTextAffix');
+			let itemTextAffix_0 = itemTextAffix[0];
 			let allNodes=[...ft.root[0].querySelectorAll('.ftRowNode:not([rowtype=window])')];
 			let chn=[];
+			let md='';
+			let medDone=false;
+			let mediaState = row.attr('media-state');
+			let mediaTime = parseFloat(row.attr('media-time'));
+			let showMedia = (settings.get('pages_showMediaPlayTime'))?true:false;
 			for(let k=allNodes.length-1; k>=0; k--){
 				let ak=allNodes[k];
 				let akc=[...ak.getElementsByClassName('ftChildren')];
@@ -215,18 +212,54 @@ function onPageRowFormatTitle(row, itemTextElem) {
 					let cktl=ckt.length;
 					if(cktl>1){
 						let c0=ckt[0];
-						ckt[0].innerText='('+(cktl-1)+')';
+						if(c0===itemTextAffix_0){
+							    if (showMedia) {
+									if (mediaState == 'playing') {
+										if (mediaTime >= 0.1) {
+											md = formatSecondsAsHMS(mediaTime);
+											medDone=true;
+										}
+									}
+								}
+						}else{
+							md='';
+						}
+						ckt[0].innerText=md+' ('+(cktl-1)+')';
 						chn.push(c0);
 						for(let j=1; j<cktl; j++){
 								let cj=ckt[j];
 								if(!chn.includes(cj)){
-									ckt[j].innerText='['+(j)+']';
+									if(cj===itemTextAffix_0){
+										if (showMedia) {
+											if (mediaState == 'playing') {
+												if (mediaTime >= 0.1) {
+													md = formatSecondsAsHMS(mediaTime);
+													medDone=true;
+												}
+											}
+										}
+									}else{
+										md='';
+									}				
+									ckt[j].innerText=md+' ['+(j)+']';
 									chn.push(cj);
 								}
 						}
 					}else if(cktl==1){
-						let c0=ckt[0];
-						ckt[0].innerText='('+(cktl-1)+')';
+						let c0=ckt[0];	
+						if(c0===itemTextAffix_0){
+							if (showMedia) {
+								if (mediaState == 'playing') {
+									if (mediaTime >= 0.1) {
+										md = formatSecondsAsHMS(mediaTime);
+										medDone=true;
+									}
+								}
+							}
+						}else{
+							md='';
+						}
+						ckt[0].innerText=md+' ('+(cktl-1)+')';
 						chn.push(c0);
 					}
 				}else{
@@ -234,6 +267,17 @@ function onPageRowFormatTitle(row, itemTextElem) {
 					afx.innerText='';
 				}
 			}
+			
+	if(medDone===false){
+		if (showMedia) {
+			if (mediaState == 'playing') {
+				if (mediaTime >= 0.1) {
+					md = formatSecondsAsHMS(mediaTime);
+					itemTextAffix[0].innerText=md;
+				}
+			}
+		}
+	}
 
     if (loggingEnabled) {
         label = row.attr('id').slice(0, 4) + (label ? ': ' : '') + label;
@@ -246,14 +290,13 @@ function onPageRowFormatTitle(row, itemTextElem) {
     itemTextElem.children('.ftItemTitle').text(text);
     itemTextElem.children('.ftItemLabel').html(label + (text && label ? ': ' : ''));
 
-    var itemTextAffix = row.children('.ftItemRow').find('.ftItemTextAffix');
-    if (textAffix) {
-        itemTextAffix.html(textAffix);
+   // if (textAffix) {
+        //itemTextAffix.html(textAffix);
         /*var buttonsShowing = row.children('.ftItemRow').find('.ftButtons').is(':visible');
         if (!buttonsShowing) {
             itemTextAffix.show();
         }*/
-    }
+   // }
     /*else {
         itemTextAffix.html('').hide();
     }*/
