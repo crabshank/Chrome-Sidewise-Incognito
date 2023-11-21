@@ -43,7 +43,7 @@ FancyTree.prototype.moveRow = function(a, b, c, e, f) {
         b = b ? this.getRow(b) : this.root;
     this.removeRow(a, e, !0, !0);
     var a = this.getChildrenContainer(b),
-        h;
+        h;		
     if (c) {
         h = this.getRow(c);
         h = a.children("#" + h.attr("id"));
@@ -65,6 +65,24 @@ FancyTree.prototype.moveRow = function(a, b, c, e, f) {
         this.formatLineageTitles(g);
         this.formatLineageTitles(b)
     }
+	
+		//let doneDiscard=false;
+	try{
+		let pgd=d[0];
+		let wnd=b[0];
+		let wndHib=(wnd.getAttribute('hibernated')=='true')?true:false;
+		let pgs=[];
+		if(wndHib===false){
+			pgs=[...wnd.querySelectorAll('li[rowtype=page]')].filter(p=>{return p!==pgd});
+			let pgl=pgs.length;
+			pgsDisc=pgs.filter(p=>{return p.getAttribute('discarded')=='true'});
+			if(pgl>0 && pgl===pgsDisc.length){
+				//doneDiscard=true;
+				onContextMenuItemDiscardPages($(pgd));
+			}
+		}
+	}catch(e){;}
+	
     return {
         row: d,
         parent: b,
