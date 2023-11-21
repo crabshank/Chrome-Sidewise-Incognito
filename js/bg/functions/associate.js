@@ -208,7 +208,8 @@ function restoreAssociatedPage(b, a) {
     });
     chrome.tabs.get(b.id, function(b) {
         tree.updateNode(a, {
-            status: b.status
+            status: b.status,
+            discarded: b.discarded
         })
     });
     b.active && focusTracker.getFocused() == b.windowId && tree.focusPage(b.id);
