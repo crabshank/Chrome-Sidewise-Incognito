@@ -319,6 +319,7 @@ function onTabUpdated(a, c, b) {
                 "moving", d.id, "append", c.id), tree.moveNodeRel(d, "append", c)), d.placed = !0) : console.error("Could not find correct parent by openerTabId " + b.openerTabId));
            tree.updateNode(d, {
                 status: b.status,
+                discarded: b.discarded,
                 url: getUrl(b),
                 favicon: e,
                 title: a,

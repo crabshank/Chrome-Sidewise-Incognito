@@ -75,7 +75,8 @@ function onBeforeNavigate(a) {
                     if (c && (c.hibernated ? tree.updateNode(b, {
                         status: "complete"
                     }) : tree.updateNode(b, {
-                        status: c.status
+                        status: c.status,
+                        discarded: c.discarded,
                     }),
                     "complete" == c.status || c.hibernated))
                         TimeoutManager.clear("checkPageStatus1_" + a.tabId),
