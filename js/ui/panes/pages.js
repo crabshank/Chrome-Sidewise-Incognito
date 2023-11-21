@@ -259,6 +259,22 @@ function onRowExpanderClick(b) {
 }
 
 function onRowsMoved(b) {
+	let doneDiscard=false;
+	try{
+		let pgb=b[0].$row[0];
+		let wnd=b[0].$newParent[0];
+		let wndHib=(wnd.getAttribute('hibernated')=='true')?true:false;
+		let pgs=[];
+		if(wndHib===false){
+			pgs=[...wnd.querySelectorAll('li[rowtype=page]')].filter(p=>{return p!==pgb});
+			let pgl=pgs.length;
+			pgsDisc=pgs.filter(p=>{return p.getAttribute('discarded')=='true'});
+			if(pgl>0 && pgl===pgsDisc.length){
+				doneDiscard=true;
+				onContextMenuItemDiscardPages($(pgb));
+			}
+		}
+	}catch(e){;}
     log(b);
     for (var a = {}, c = 0, d, /*e = !1,*/ h=false, f = 0; f < b.length; f++) {
         var h = b[f],
@@ -278,7 +294,7 @@ function onRowsMoved(b) {
 					var g = h.$oldAncestors.last();
 					let dw=(d.attr("rowtype") == "window")?true:false;
 					
-				if(m.attr("hibernated") != "true"){ //page not hibernated
+				if( doneDiscard===false && m.attr("hibernated") != "true"){ //page not hibernated
 
 					if ( dw && !d.is(g)) { // non-hibernated page's window found
 						var m = getChromeId(m),
