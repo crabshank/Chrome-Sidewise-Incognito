@@ -461,25 +461,27 @@ function moveTabsBetweenWindows(fromWindowId, toWindowId, moves, onComplete) {
 }
 
 function moveTabToWindow(movingTabId, toWindowId, toPosition, afterFn) {
-    log('moving tab to window', 'movingTabId', movingTabId, 'toWindowId', toWindowId, 'toPosition', toPosition);
-    bg.expectingTabMoves.push(movingTabId);
-    chrome.tabs.move(movingTabId, { windowId: toWindowId, index: toPosition }, function() {
-        chrome.tabs.update(movingTabId, { active: true }, function(tab) {
-            // Unpin tab if necessary (Chrome typically does so silenty for pinned tabs moved btwn windows this way)
-            if (!tab.pinned) {
-                var page = bg.tree.getNode(['chromeId', movingTabId]);
-                if (page.pinned) {
-                    bg.tree.updateNode(page, { pinned: false });
-                    // TODO don't use below calling style: chrome-functions.js is bg specific so it should
-                    // NOT be in the util/ folder, it needs to be under /js/bg/...
-                    bg.fixPinnedUnpinnedTabOrder.call(bg, page);
-                }
-            }
-            if (afterFn) {
-                afterFn();
-            }
-        });
-    });
+	if(!isNaN(toWindowId)){
+		log('moving tab to window', 'movingTabId', movingTabId, 'toWindowId', toWindowId, 'toPosition', toPosition);
+		bg.expectingTabMoves.push(movingTabId);
+		chrome.tabs.move(movingTabId, { windowId: toWindowId, index: toPosition }, function() {
+			chrome.tabs.update(movingTabId, { active: true }, function(tab) {
+				// Unpin tab if necessary (Chrome typically does so silenty for pinned tabs moved btwn windows this way)
+				if (!tab.pinned) {
+					var page = bg.tree.getNode(['chromeId', movingTabId]);
+					if (page.pinned) {
+						bg.tree.updateNode(page, { pinned: false });
+						// TODO don't use below calling style: chrome-functions.js is bg specific so it should
+						// NOT be in the util/ folder, it needs to be under /js/bg/...
+						bg.fixPinnedUnpinnedTabOrder.call(bg, page);
+					}
+				}
+				if (afterFn) {
+					afterFn();
+				}
+			});
+		});
+	}
 }
 
 function allowDropHandler($fromRows, relation, $toRow) {

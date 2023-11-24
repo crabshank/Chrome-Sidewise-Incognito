@@ -417,21 +417,23 @@ function moveTabsBetweenWindows(b, a, c, d) {
 }
 
 function moveTabToWindow(b, a, c, d) {
-    log("moving tab to window", "movingTabId", b, "toWindowId", a, "toPosition", c);
-    bg.expectingTabMoves.push(b);
-    chrome.tabs.move(b, {
-        windowId: a,
-        index: c
-    }, function() {
-        chrome.tabs.update(b, {
-            active: !0
-        }, function(a) {
-            a.pinned || (a = bg.tree.getNode(["chromeId", b]), a.pinned && (bg.tree.updateNode(a, {
-                pinned: !1
-            }), bg.fixPinnedUnpinnedTabOrder.call(bg, a)));
-            d && d()
-        })
-    })
+	if(!isNaN(a)){
+		log("moving tab to window", "movingTabId", b, "toWindowId", a, "toPosition", c);
+		bg.expectingTabMoves.push(b);
+		chrome.tabs.move(b, {
+			windowId: a,
+			index: c
+		}, function() {
+			chrome.tabs.update(b, {
+				active: !0
+			}, function(a) {
+				a.pinned || (a = bg.tree.getNode(["chromeId", b]), a.pinned && (bg.tree.updateNode(a, {
+					pinned: !1
+				}), bg.fixPinnedUnpinnedTabOrder.call(bg, a)));
+				d && d()
+			})
+		})
+	}
 }
 
 function allowDropHandler(b, a, c) {
