@@ -43,7 +43,6 @@ function removeNodePrint(n){
 }
 
 function onBodyKeyDown(b) {
-	console.log(b.ctrlKey, b.keyCode);
 	
 	if(b.keyCode===46){
 		let k=$("ul.ftChildren > li.ftFocused, ul.ftChildren > li.ftSelected");
