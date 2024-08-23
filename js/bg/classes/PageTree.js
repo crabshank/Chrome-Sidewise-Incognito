@@ -296,6 +296,7 @@ PageTree.prototype = {
         this.updateLastModified()
     },
     awakenPageNodes: function(a, c, b,hb) {
+		let aUrlsPinned=a.filter(p=>{return p.pinned===true;}).map(p=>{return p.url;});
         var d = this;
 		if(typeof hb!=='undefined'){
 			d.hb=hb;
@@ -329,9 +330,19 @@ PageTree.prototype = {
                 b && d.mergeNodes(b, c);
                 d.setWindowToAwake(c, a.id);
                 d.expandNode(c);
-                rectifyAssociations(1E3)
+                rectifyAssociations(1E3);
+				let at=a.tabs;
+				if(aUrlsPinned.length>0){
+					for(let j=0, len=at.length; j<len; j++){
+						let atj=at[j];
+						let u=getUrl(atj);
+						if(aUrlsPinned.includes(u)){
+							chrome.tabs.update(atj.id,{pinned: true},()=>{;});
+						}
+					}
+				}
+				
 				if(hb===true){
-					let at=a.tabs;
 					for(let j=0, len=at.length; j<len; j++){
 						disc_tabs.push({id: at[j].id});
 					}
