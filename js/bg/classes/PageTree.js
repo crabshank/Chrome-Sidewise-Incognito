@@ -296,7 +296,28 @@ PageTree.prototype = {
         this.updateLastModified()
     },
     awakenPageNodes: function(a, c, b,hb) {
-		let aUrlsPinned=a.filter(p=>{return p.pinned===true;}).map(p=>{return p.url;});
+		let aUrlsPinned={};
+		let existPinned=false;
+		for(let j=0, len=a.length; j<len; j++){
+			let aj=a[j];
+			let u=aj.url;
+			if(typeof(aUrlsPinned[u])==='undefined'){
+				if(aj.pinned===true){
+					existPinned=true;
+					aUrlsPinned[u]={c:0,p:[0],np:[]};
+				}else{
+					aUrlsPinned[u]={c:0,p:[],np:[0]};
+				}
+			}else{
+				aUrlsPinned[u].c+=1;
+				if(aj.pinned===true){
+					existPinned=true;
+					aUrlsPinned[u].p.push(aUrlsPinned[u].c);
+				}else{
+					aUrlsPinned[u].np.push(aUrlsPinned[u].c);
+				}
+			}
+		}
         var d = this;
 		if(typeof hb!=='undefined'){
 			d.hb=hb;
@@ -332,11 +353,17 @@ PageTree.prototype = {
                 d.expandNode(c);
                 rectifyAssociations(1E3);
 				let at=a.tabs;
-				if(aUrlsPinned.length>0){
+				let encd={}
+				if(existPinned){
 					for(let j=0, len=at.length; j<len; j++){
 						let atj=at[j];
 						let u=getUrl(atj);
-						if(aUrlsPinned.includes(u)){
+						if(typeof(encd[u])==='undefined'){
+							encd[u]=0;
+						}else{
+							encd[u]+=1;
+						}
+						if(aUrlsPinned[u].p.includes(encd[u])){
 							chrome.tabs.update(atj.id,{pinned: true},()=>{;});
 						}
 					}
